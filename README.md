@@ -15,7 +15,7 @@ investigação de assassinato em mansão, feito para **2 jogadores adultos**, di
 
 - [x] Pesquisa de referências de mercado (Hunt A Killer, Case Files, etc.)
 - [x] GitHub CLI instalado e autenticado como `Edubernardino7-recuperacao`
-- [x] 39 imagens em `assets/` (cenas, evidências, retratos, mansões)
+- [x] 36 imagens em `assets/` (cenas, evidências, retratos, mansões)
 - [x] HTML do jogo (`jogo.html`) — 32 páginas A4
 - [x] HTML da solução (`solucao.html`) — 12 páginas A4
 - [x] Conversão HTML → PDF com Chrome headless
