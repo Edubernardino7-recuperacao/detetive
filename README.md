@@ -11,79 +11,39 @@ investigação de assassinato em mansão, feito para **2 jogadores adultos**, di
 
 ---
 
-## ⚙️ ESTADO ATUAL (snapshot para outra IA verificar)
+## ⚙️ ESTADO ATUAL — CONCLUÍDO
 
 - [x] Pesquisa de referências de mercado (Hunt A Killer, Case Files, etc.)
-- [x] GitHub CLI instalado e **autenticado** como `Edubernardino7-recuperacao`
-- [x] Repo git init em `C:\Users\eduardo\Desktop\detetive`
-- [x] **36 imagens** baixadas em `assets/` (cenas, evidências, retratos, mansões)
-- [x] Escrever HTML dos 2 PDFs (`jogo.html` 32 páginas · `solucao.html` 7 páginas)
-- [x] Converter HTML → PDF (Chrome headless) — **validado página a página** com
-      `pypdfium2` (`_render.py` gera PNGs em `_pages/`, `_sheet.py` monta folha de contato)
-- [x] **PDFs conferidos visualmente**: JOGO = **32 páginas** (1 por seção),
-      SOLUÇÃO = 7 páginas. Sem transbordamento.
-- [x] Commit + push dos PDFs para `origin/main` (commits `b1516aa`, `ac6913e`)
+- [x] GitHub CLI instalado e autenticado como `Edubernardino7-recuperacao`
+- [x] 39 imagens em `assets/` (cenas, evidências, retratos, mansões)
+- [x] HTML do jogo (`jogo.html`) — 32 páginas A4
+- [x] HTML da solução (`solucao.html`) — 12 páginas A4
+- [x] Conversão HTML → PDF com Chrome headless
+- [x] Commit + push para `origin/main`
 
-### ✅ Correção aplicada (validação pós-geração)
-- O primeiro PDF do jogo saiu com **6 páginas** (leitura truncada) e depois com
-  **33 páginas** (seção "Três níveis de ajuda" com 15 caixas de dica transbordava
-  a A4). Corrigido com `.hint-cols { column-count: 2 }` → agora **32 páginas exatas**.
-- Sempre revalidar após regenerar: `python _render.py` e contar páginas.
+**Entregáveis**
 
-### ⚠️ Nota técnica importante
-- A geração de imagens por IA (`experimental_image_generate`) está **quebrada**
-  (erro `Invalid credential`) — NÃO usar. Todas as imagens vêm da internet
-  (Openverse/Flickr, licenças livres), baixadas via `curl.exe` com User-Agent.
-- `System.Drawing` NÃO existe nesta máquina (PowerShell 7 / .NET sem Windows Forms).
-  Para ler dimensões de imagem usar Python Pillow ou ignorar.
-- PowerShell: NÃO usar `foreach` sobre `@{}` hashtables com `Invoke-WebRequest`
-  (bug de interpretação) — usar lista de strings `nome|url` e `curl.exe`.
-- Chrome em: `C:\Program Files\Google\Chrome\Application\chrome.exe`
-  Conversão: `chrome --headless --disable-gpu --print-to-pdf=arquivo.pdf file:///caminho.html`
+| Arquivo | Páginas | Conteúdo |
+|---|---|---|
+| `Caso_Mansao_Blackwood_JOGO.pdf` | 32 | Capa, regras, briefing, planta, laudo, 6 dossiês, 15 provas, 5 puzzles, dicas, ficha de acusação |
+| `Caso_Mansao_Blackwood_SOLUCAO.pdf` | 12 | Solução resumida, linha do tempo real, resolução dos 5 puzzles, inocentes, análise da cena |
 
----
+**Como regerar os PDFs** (após editar os HTML):
 
-## 📖 INSTRUÇÕES DE CONTINUAÇÃO (para a IA verificadora)
+```bash
+CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe"
+ROOT="$(pwd -W)"
+"$CHROME" --headless --disable-gpu --no-pdf-header-footer   --print-to-pdf="$ROOT/Caso_Mansao_Blackwood_JOGO.pdf" "file:///$ROOT/jogo.html"
+"$CHROME" --headless --disable-gpu --no-pdf-header-footer   --print-to-pdf="$ROOT/Caso_Mansao_Blackwood_SOLUCAO.pdf" "file:///$ROOT/solucao.html"
+```
 
-Se este projeto parou no meio, faça NESTA ordem:
+Conferir páginas: `python -c "import pypdfium2 as p;print(len(p.PdfDocument('Caso_Mansao_Blackwood_JOGO.pdf')))"`.
 
-1. **Verifique o progresso**: `Get-ChildItem C:\Users\eduardo\Desktop\detetive`
-   - Se existir `Caso_Mansao_Blackwood_*.pdf` → pule para o passo 5.
-   - Se existir `jogo.html` / `solucao.html` mas sem PDF → passe para o passo 4.
-   - Se não existir HTML → continue do passo 2.
-
-2. **Crie o HTML do jogo** (`jogo.html`) — A4, português, design dark/cinema,
-   fontes serifadas para documentos, carimbo "CONFIDENCIAL".
-   Estrutura (~30-40 páginas):
-   - Capa (foto mansão à noite + título)
-   - Briefing/objetivo + regras + dica de tempo (2h) + níveis de dica
-   - Resumo do caso + foto cena do crime + planta da mansão
-   - Laudo policial preliminar
-   - 6 dossiês de suspeitos (retrato + bio + declaração + segredo)
-   - Evidências numeradas: fotos (cena, copo, candelabro, pílulas, relógio, chaves),
-     cartas, testamento, registro telefônico, caderno cifrado, recibo
-   - 4-5 puzzles: linha do tempo, cifra de substituição, dedução forense
-     (veneno vs. ferimento), "quem mentiu", planta/localização
-   - Ficha de acusação final preenchível (culpado, motivo, meio, oportunidade)
-
-3. **Crie o HTML da solução** (`solucao.html`) — gabarito com:
-   - Solução resumida no topo
-   - Narrativa real dos acontecimentos (linha do tempo completa)
-   - Passo a passo de cada puzzle
-   - Por que cada suspeito é inocente/excluído
-   - Como acusar corretamente
-
-4. **Converta para PDF** com Chrome headless (comando acima).
-
-5. **Commit e push**:
-   ```powershell
-   cd C:\Users\eduardo\Desktop\detetive
-   git add -A
-   git commit -m "feat: PDFs do jogo Caso Mansao Blackwood"
-   git push origin main
-   ```
-   Remoto já configurado (`origin` → github.com/Edubernardino7-recuperacao/detetive).
-   Se o repo não existir: `gh repo create detetive --public --source=. --remote=origin --push`
+### Notas técnicas
+- Imagens por IA estão quebradas (`Invalid credential`) — todas as imagens vêm de acervo livre (Openverse/Flickr).
+- Chrome headless **exige caminho absoluto** em `--print-to-pdf` no Windows.
+- `@page { size: A4; margin: 0 }` + `.page` com padding manual. Cada seção `.page` = 1 página do PDF (não adicionar conteúdo além de ~297mm).
+- `library_newport.jpg` e `library_foace.jpg` são fachadas aéreas, não bibliotecas; use `library_stacks.jpg` / `library_study.jpg` para interiores.
 
 ---
 

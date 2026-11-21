@@ -1,1 +1,7 @@
-﻿_pages/
+# build/temporários
+.build/
+_preview/
+_pages/
+_check.py
+_render.py
+.freebuff/
