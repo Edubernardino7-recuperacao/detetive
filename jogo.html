@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Caso Mansão Blackwood — Jogo</title>
+<style>
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1c1713; background: #ded8cc; font-size: 10.5pt; line-height: 1.52;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page {
+  position: relative; width: 210mm; min-height: 297mm;
+  padding: 16mm 16mm 14mm; background: #f7f2e7; page-break-after: always;
+}
+.page:last-child { page-break-after: auto; }
+.dark { background: #12100e; color: #efe6d3; }
+.foot {
+  position: absolute; left: 16mm; right: 16mm; bottom: 7mm;
+  font-family: Arial, Helvetica, sans-serif; font-size: 6.8pt;
+  letter-spacing: .18em; text-transform: uppercase; color: #8d8069;
+  border-top: .5pt solid #cabf9f; padding-top: 2mm; display: flex;
+  justify-content: space-between;
+}
+.dark .foot { color: #8b7f68; border-color: #3a332a; }
+
+/* ---------- capa ---------- */
+.cover { padding: 0; overflow: hidden; background: #0d0b0a; color: #f5ebd6; }
+.cover-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: .42; filter: grayscale(.35) contrast(1.08);
+}
+.cover-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,7,6,.86) 0%, rgba(8,7,6,.35) 40%, rgba(8,7,6,.92) 100%);
+}
+.cover-inner { position: absolute; inset: 0; padding: 22mm 20mm; display: flex; flex-direction: column; justify-content: space-between; }
+.eyebrow { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .32em; text-transform: uppercase; color: #b08d57; }
+.cover h1 { font-size: 43pt; line-height: 1.02; font-weight: normal; margin: 6mm 0 4mm; letter-spacing: -.5pt; }
+.cover h1 em { color: #c9a267; font-style: italic; }
+.cover .sub { font-size: 12pt; color: #d9cdb6; font-style: italic; }
+.cover-meta { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .22em; text-transform: uppercase; color: #cbbfa8; }
+.cover-meta span { display: inline-block; margin-right: 7mm; }
+.badge-secret {
+  align-self: flex-start; border: 2.5pt double #9e2b1e; color: #d99383;
+  padding: 2.5mm 5mm; font-family: Arial, Helvetica, sans-serif; font-size: 7.4pt;
+  letter-spacing: .26em; text-transform: uppercase; transform: rotate(-3deg);
+}
+
+/* ---------- tipografia ---------- */
+h2.sec { font-weight: normal; font-size: 21pt; line-height: 1.1; margin: 0 0 2mm; letter-spacing: -.3pt; }
+h2.sec .num { display: block; font-family: Arial, Helvetica, sans-serif; font-size: 7.4pt; letter-spacing: .3em; color: #9a6b39; text-transform: uppercase; margin-bottom: 2.5mm; }
+h3 { font-weight: normal; font-size: 13pt; margin: 6mm 0 2mm; }
+h4 { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .22em; text-transform: uppercase; margin: 5mm 0 1.5mm; color: #7d511f; }
+p { margin: 0 0 3mm; }
+.lead { font-size: 12pt; font-style: italic; color: #4a3f31; line-height: 1.45; }
+.small { font-size: 8.6pt; color: #5e5343; }
+.center { text-align: center; }
+.rule { height: .7pt; background: #c7b992; margin: 4mm 0; }
+.rule-thick { height: 2.4pt; background: #1c1713; margin: 3mm 0 5mm; }
+.drop::first-letter { float: left; font-size: 40pt; line-height: .82; padding: 1mm 2mm 0 0; color: #8c1c13; }
+.serif-doc { font-family: "Courier New", Courier, monospace; font-size: 9.4pt; line-height: 1.55; }
+blockquote { margin: 3mm 0; padding: 3mm 0 3mm 5mm; border-left: 2pt solid #b08d57; font-style: italic; color: #3f3629; }
+blockquote cite { display: block; font-style: normal; font-family: Arial, Helvetica, sans-serif; font-size: 7.4pt; letter-spacing: .16em; text-transform: uppercase; color: #8a6a3c; margin-top: 1.5mm; }
+
+/* ---------- grids ---------- */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+.g-dossie { display: grid; grid-template-columns: 62mm 1fr; gap: 6mm; }
+
+/* ---------- cartões ---------- */
+.card { background: #fffdf6; border: .8pt solid #d5c9a9; padding: 4.5mm; }
+.card.tint { background: #f0e8d6; }
+.card.dark { background: #1d1915; border-color: #3d352a; color: #e8dcc4; }
+.card h4 { margin-top: 0; }
+.pill { display: inline-block; font-family: Arial, Helvetica, sans-serif; font-size: 6.8pt; letter-spacing: .18em; text-transform: uppercase; background: #1c1713; color: #f3e9d4; padding: 1mm 2.6mm; }
+.pill.red { background: #8c1c13; }
+.pill.gold { background: #b08d57; color: #1c1713; }
+.pill.ghost { background: transparent; border: .7pt solid #8b7a5b; color: #6c5c40; }
+
+/* ---------- fotos ---------- */
+.photo { width: 100%; display: block; object-fit: cover; filter: saturate(.82) contrast(1.04); }
+.photo.tall { height: 78mm; }
+.photo.mid { height: 52mm; }
+.photo.short { height: 36mm; }
+.photo-frame { border: .8pt solid #cbbd9c; background: #fffdf6; padding: 2.5mm; }
+.photo-frame figcaption { font-family: Arial, Helvetica, sans-serif; font-size: 6.9pt; letter-spacing: .08em; color: #6b5d46; padding-top: 2mm; text-transform: uppercase; }
+.figure-num { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; letter-spacing: .22em; color: #9a6b39; text-transform: uppercase; margin-bottom: 2mm; }
+.cover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; }
+.cover-grid img { width: 100%; height: 30mm; object-fit: cover; }
+
+/* ---------- etiquetas / carimbos ---------- */
+.stamp {
+  position: absolute; border: 3pt double #9e2b1e; color: #9e2b1e;
+  font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 13pt;
+  letter-spacing: .18em; text-transform: uppercase; padding: 2mm 5mm;
+  transform: rotate(-11deg); opacity: .7;
+}
+.seal {
+  border: .8pt dashed #a5906a; background: #f1e9d7; padding: 3mm 4mm;
+  font-size: 8.6pt; color: #5c5140;
+}
+
+/* ---------- listas ---------- */
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.6mm; }
+ul.tight li { margin-bottom: .8mm; }
+.checklist { list-style: none; padding-left: 0; }
+.checklist li { padding-left: 6mm; position: relative; }
+.checklist li:before { content: ""; position: absolute; left: 0; top: 1.1mm; width: 3mm; height: 3mm; border: .8pt solid #8c7a58; }
+
+/* ---------- tabelas ---------- */
+table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+th { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; letter-spacing: .14em; text-transform: uppercase; text-align: left; background: #1c1713; color: #f1e6d0; padding: 2.2mm 2.4mm; font-weight: normal; }
+td { border-bottom: .6pt solid #d3c7a9; padding: 2.2mm 2.4mm; vertical-align: top; }
+tr:nth-child(even) td { background: #fbf7ec; }
+td.time { font-family: "Courier New", monospace; font-weight: bold; white-space: nowrap; }
+td.blank { height: 10mm; }
+.table-dark th { background: #8c1c13; }
+
+/* ---------- caixas ---------- */
+.quote-box { background: #f0e6cf; border-left: 3pt solid #9e2b1e; padding: 4mm 5mm; font-style: italic; }
+.hint { border: .8pt solid #c3b28c; background: #fbf7ea; padding: 3.5mm 4mm; margin-bottom: 3.5mm; }
+.hint .lv { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; letter-spacing: .2em; text-transform: uppercase; color: #8c1c13; }
+.two-col-text { column-count: 2; column-gap: 7mm; }
+.avoid { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<!-- ============ CAPA ============ -->
+<section class="page cover">
+  <img class="cover-img" src="assets/cover_night1.jpg" alt="Mansão Blackwood à noite">
+  <div class="cover-shade"></div>
+  <div class="cover-inner">
+    <div>
+      <div class="eyebrow">Um caso para dois detetives &middot; Dossiê confidencial</div>
+      <h1>O Caso<br><em>Mansão Blackwood</em></h1>
+      <p class="sub">Sexta-feira, 21 de novembro. Sir Edmund Blackwood foi encontrado<br>morto na biblioteca às 22h55. A polícia já tem uma teoria.</p>
+    </div>
+    <div>
+      <div class="badge-secret">Confidencial &middot; não abra a solução</div>
+    </div>
+    <div>
+      <div class="rule" style="background:#4a4033"></div>
+      <div class="cover-meta">
+        <span>2 jogadores</span><span>2h a 2h30</span><span>Dificuldade média/difícil</span><span>Somerset, Inglaterra</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMO JOGAR ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Antes de começar</span>Como jogar</h2>
+  <p class="lead">Vocês são dois investigadores contratados pelo escritório Pike &amp; Harlow para revisar o inquérito antes da audiência de instrução. Têm duas horas. O que a polícia concluiu pode estar errado — e alguém nesta casa conta com isso.</p>
+  <div class="rule"></div>
+
+  <div class="g2">
+    <div class="card">
+      <h4>Detetive A — Cena &amp; Cronologia</h4>
+      <p class="small" style="margin:0">Responsável pelas fotos da cena, pelo laudo médico, pelo relógio parado, pelos registros telefônicos e pela linha do tempo. Confira cada horário contra uma segunda fonte.</p>
+    </div>
+    <div class="card">
+      <h4>Detetive B — Documentos &amp; Pessoas</h4>
+      <p class="small" style="margin:0">Responsável pelos dossiês, declarações, cartas, testamento, caderno cifrado e pela tabela de álibis. Cruze o que cada suspeito diz com o que os papéis provam.</p>
+    </div>
+  </div>
+
+  <h4>O que há neste dossiê</h4>
+  <ul class="checklist">
+    <li>Briefing, planta da mansão e laudo policial preliminar</li>
+    <li>Seis dossiês de suspeitos, com declaração e um segredo selado</li>
+    <li>Quinze provas numeradas (de <strong>PROVA 01</strong> a <strong>PROVA 15</strong>)</li>
+    <li>Cinco puzzles encadeados e uma ficha de acusação</li>
+    <li>Sistema de dicas em três níveis — no fim do caderno</li>
+  </ul>
+
+  <h4>As três regras</h4>
+  <ol>
+    <li><strong>Não abram o PDF de solução</strong> até terem preenchido a ficha de acusação. Cada puzzle tem dicas escalonadas; usem-nas antes de desistir.</li>
+    <li><strong>Nada é prova sozinho.</strong> Toda conclusão precisa de duas fontes independentes — uma declaração e um documento, ou um documento e um objeto.</li>
+    <li><strong>Mentir não é matar.</strong> Pelo menos três pessoas escondem algo nesta casa. Descubram o que cada mentira protege antes de confundi-la com culpa.</li>
+  </ol>
+
+  <div class="g3" style="margin-top:5mm">
+    <div class="card tint"><h4>0–40 min</h4><p class="small" style="margin:0">Cena, laudo e planta. Fixem a hora da morte e a arma aparente.</p></div>
+    <div class="card tint"><h4>40–95 min</h4><p class="small" style="margin:0">Dossiês e provas documentais. Marquem quem mentiu e sobre o quê.</p></div>
+    <div class="card tint"><h4>95–130 min</h4><p class="small" style="margin:0">Puzzles 1 a 4, linha do tempo e acusação final.</p></div>
+  </div>
+
+  <div class="seal" style="margin-top:6mm">
+    <strong>Materiais:</strong> caneta e lápis. Podem (e devem) escrever neste caderno: as tabelas de trabalho foram deixadas em branco de propósito.
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Dossiê do jogo</span><span>p. 2</span></div>
+</section>
+
+<!-- ============ BRIEFING ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Documento 00</span>O briefing</h2>
+
+  <div class="card" style="margin-bottom:5mm">
+    <p class="small" style="margin-bottom:2mm"><strong>PIKE &amp; HARLOW — SOLICITORS</strong><br>12 Gray's Inn Square, Londres &middot; 22 de novembro</p>
+    <p class="small" style="margin:0">Ao cuidado dos investigadores contratados,<br>Assunto: <em>óbito de Sir Edmund Blackwood — revisão pré-audiência</em></p>
+  </div>
+
+  <p class="drop">Sir Edmund Blackwood, 71 anos, foi encontrado morto na biblioteca da sua casa em Somerset na noite de ontem, 21 de novembro, por volta das 22h55. A governanta, Clara Vidal, ouviu um estrondo, desceu e encontrou o corpo ao pé da poltrona, com uma ferida na cabeça e o candelabro de bronze caído a um metro e meio de distância.</p>
+  <p>A polícia local tratou o caso, nas primeiras horas, como um assalto que deu errado. O inspetor responsável quer encerrar o inquérito antes da audiência de segunda-feira. A família — e, francamente, este escritório — não está convencida. O testamento de Sir Edmund movimenta uma fortuna considerável, e a casa estava cheia.</p>
+  <p>Vocês têm acesso ao dossiê completo: laudo preliminar, fotografias, objetos apreendidos, registros telefônicos, documentos pessoais e as declarações dos seis presentes. Têm também um caderno de Sir Edmund que a polícia classificou como "rabiscos ilegíveis".</p>
+
+  <div class="quote-box">
+    "Não quero saber quem a polícia acha que foi. Quero saber quem <em>foi</em>. E quero saber antes de segunda-feira, porque depois da audiência o caso fecha e o assassino herda o silêncio da casa."
+    <br><span class="small">— Aldous Pike, sócio sênior</span>
+  </div>
+
+  <h4>A casa naquela noite</h4>
+  <p>Além da vítima, estavam na propriedade seis pessoas: a segunda esposa, o filho do primeiro casamento, o médico da família, a governanta, o sócio de negócios e a secretária particular. Nenhum funcionário de fora dormia na casa. O portão de serviço estava trancado; o portão principal, com câmera, registrou cada entrada e saída.</p>
+
+  <div class="g2" style="margin-top:4mm">
+    <div class="card tint">
+      <h4>O que a polícia afirma</h4>
+      <ul class="tight small" style="margin:0">
+        <li>Morte por traumatismo craniano</li>
+        <li>Hora da morte: 22h43 (relógio parado)</li>
+        <li>Arma: candelabro de bronze</li>
+        <li>Motivo: roubo interrompido</li>
+      </ul>
+    </div>
+    <div class="card dark">
+      <h4>O que vocês devem provar</h4>
+      <ul class="tight small" style="margin:0">
+        <li>Quem, com que meio, com que oportunidade</li>
+        <li>E por que a cena foi montada daquele jeito</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Dossiê do jogo</span><span>p. 3</span></div>
+</section>
+
+<!-- ============ A CASA / VÍTIMA ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Documento 01</span>A casa e a vítima</h2>
+
+  <div class="g2">
+    <figure class="photo-frame" style="margin:0">
+      <img class="photo tall" src="assets/manor_hatfield.jpg" alt="Fachada da mansão">
+      <figcaption>Mansão Blackwood, fachada norte, ao anoitecer</figcaption>
+    </figure>
+    <div>
+      <h4 style="margin-top:0">Sir Edmund Blackwood</h4>
+      <p class="small">71 anos. Patriarca da família Blackwood, dono de uma fortuna construída em navegação e participações industriais. Viúvo de Helena (morta há doze anos), casado em segundas núpcias com Vitória. Cardíaco, sob acompanhamento do Dr. Salles há três décadas.</p>
+      <p class="small">Nos últimos meses, Edmund andou inquieto: mudou o testamento duas vezes, demitiu um contador, cancelou uma viagem e passou a trancar-se no escritório até tarde. Na quinta-feira, mandou instalar uma fechadura nova no cofre da biblioteca.</p>
+      <div class="card tint">
+        <h4 style="margin-top:0">Personalidade</h4>
+        <p class="small" style="margin:0">Metódico, desconfiado, afeito a registros. Anotava tudo — horários, conversas, despesas. Era o tipo de homem que guarda recibos de doze anos atrás.</p>
+      </div>
+    </div>
+  </div>
+
+  <h4>Os seis presentes</h4>
+  <div class="g3">
+    <div class="card"><span class="pill">1</span><p class="small" style="margin:2mm 0 0"><strong>Vitória Blackwood</strong>, 42<br>Segunda esposa</p></div>
+    <div class="card"><span class="pill">2</span><p class="small" style="margin:2mm 0 0"><strong>Rafael Blackwood</strong>, 38<br>Filho do primeiro casamento</p></div>
+    <div class="card"><span class="pill">3</span><p class="small" style="margin:2mm 0 0"><strong>Dr. Henrique Salles</strong>, 58<br>Médico da família</p></div>
+    <div class="card"><span class="pill">4</span><p class="small" style="margin:2mm 0 0"><strong>Clara Vidal</strong>, 55<br>Governanta</p></div>
+    <div class="card"><span class="pill">5</span><p class="small" style="margin:2mm 0 0"><strong>Sérgio Kloss</strong>, 61<br>Sócio de negócios</p></div>
+    <div class="card"><span class="pill">6</span><p class="small" style="margin:2mm 0 0"><strong>Isabel Ferraz</strong>, 30<br>Secretária particular</p></div>
+  </div>
+
+  <figure class="photo-frame" style="margin-top:5mm">
+    <img class="photo mid" src="assets/dinner_candle.jpg" alt="Mesa de jantar">
+    <figcaption>Jantar de sexta-feira, 19h30 — a última refeição de Sir Edmund com os seis presentes</figcaption>
+  </figure>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Dossiê do jogo</span><span>p. 4</span></div>
+</section>
+
+<!-- ============ PLANTA ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Documento 02</span>Planta do pavimento térreo</h2>
+  <p class="small">A biblioteca ocupa a ala leste. Tem uma porta para o corredor e uma porta de serviço para a galeria. A janela estava fechada por dentro. Não há passagem entre a biblioteca e a cozinha.</p>
+
+  <div class="card" style="padding:3mm">
+    <svg viewBox="0 0 780 540" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <rect x="30" y="30" width="720" height="480" fill="#fdfaf1" stroke="#1c1713" stroke-width="3"/>
+      <!-- escritorio -->
+      <rect x="30" y="30" width="230" height="140" fill="#f2ead7" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="145" y="95" text-anchor="middle" font-family="Georgia" font-size="15" fill="#1c1713">ESCRITÓRIO</text>
+      <text x="145" y="113" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">mesa · arquivos · cofre 2</text>
+      <!-- jantar -->
+      <rect x="30" y="170" width="230" height="160" fill="#f2ead7" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="145" y="245" text-anchor="middle" font-family="Georgia" font-size="15" fill="#1c1713">SALA DE JANTAR</text>
+      <text x="145" y="263" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">mesa para dez</text>
+      <!-- cozinha -->
+      <rect x="30" y="330" width="150" height="180" fill="#f2ead7" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="105" y="418" text-anchor="middle" font-family="Georgia" font-size="14" fill="#1c1713">COZINHA</text>
+      <text x="105" y="436" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">fogão · pia</text>
+      <!-- despensa -->
+      <rect x="180" y="330" width="80" height="180" fill="#efe6d1" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="220" y="415" text-anchor="middle" font-family="Georgia" font-size="11" fill="#1c1713">DESPENSA</text>
+      <text x="220" y="432" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">prataria</text>
+      <!-- hall -->
+      <rect x="260" y="350" width="210" height="160" fill="#f7f0dd" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="365" y="418" text-anchor="middle" font-family="Georgia" font-size="15" fill="#1c1713">HALL</text>
+      <text x="365" y="436" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">telefone · porta principal</text>
+      <!-- escada -->
+      <rect x="260" y="180" width="210" height="170" fill="#f2ead7" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="365" y="250" text-anchor="middle" font-family="Georgia" font-size="14" fill="#1c1713">ESCADA</text>
+      <g stroke="#8b7a5b" stroke-width="1">
+        <line x1="300" y1="270" x2="430" y2="270"/><line x1="300" y1="282" x2="430" y2="282"/>
+        <line x1="300" y1="294" x2="430" y2="294"/><line x1="300" y1="306" x2="430" y2="306"/>
+        <line x1="300" y1="318" x2="430" y2="318"/>
+      </g>
+      <text x="365" y="340" text-anchor="middle" font-family="Arial" font-size="8.5" fill="#6c5c40">acesso ao andar superior</text>
+      <!-- galeria -->
+      <rect x="260" y="30" width="210" height="150" fill="#f2ead7" stroke="#1c1713" stroke-width="1.4"/>
+      <text x="365" y="100" text-anchor="middle" font-family="Georgia" font-size="13" fill="#1c1713">GALERIA</text>
+      <text x="365" y="118" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">retratos · porta de serviço</text>
+      <!-- biblioteca -->
+      <rect x="470" y="30" width="280" height="480" fill="#eadfc4" stroke="#1c1713" stroke-width="2.6"/>
+      <text x="610" y="120" text-anchor="middle" font-family="Georgia" font-size="19" fill="#1c1713">BIBLIOTECA</text>
+      <text x="610" y="140" text-anchor="middle" font-family="Arial" font-size="9" fill="#6c5c40">estantes · lareira · poltrona · cofre</text>
+      <!-- mobiliario -->
+      <rect x="500" y="175" width="90" height="55" fill="none" stroke="#8b7a5b" stroke-width="1.2"/>
+      <text x="545" y="207" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">poltrona</text>
+      <rect x="620" y="175" width="46" height="46" fill="none" stroke="#8b7a5b" stroke-width="1.2"/>
+      <text x="643" y="203" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">mesa</text>
+      <rect x="690" y="175" width="34" height="34" fill="none" stroke="#8b7a5b" stroke-width="1.2"/>
+      <text x="707" y="196" text-anchor="middle" font-family="Arial" font-size="7" fill="#6c5c40">cofre</text>
+      <rect x="500" y="300" width="150" height="26" fill="none" stroke="#8b7a5b" stroke-width="1.2"/>
+      <text x="575" y="318" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">estantes</text>
+      <rect x="500" y="360" width="40" height="110" fill="none" stroke="#8b7a5b" stroke-width="1.2"/>
+      <text x="520" y="418" text-anchor="middle" font-family="Arial" font-size="7" fill="#6c5c40" transform="rotate(-90 520 418)">lareira</text>
+      <!-- relogio -->
+      <circle cx="600" cy="425" r="17" fill="none" stroke="#1c1713" stroke-width="1.6"/>
+      <line x1="600" y1="425" x2="600" y2="414" stroke="#1c1713" stroke-width="1.6"/>
+      <line x1="600" y1="425" x2="608" y2="431" stroke="#1c1713" stroke-width="1.6"/>
+      <text x="600" y="458" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">relógio de pé</text>
+      <!-- corpo -->
+      <g transform="translate(548,245)">
+        <ellipse cx="0" cy="0" rx="30" ry="13" fill="none" stroke="#9e2b1e" stroke-width="1.6" stroke-dasharray="4 3"/>
+        <line x1="-40" y1="0" x2="40" y2="0" stroke="#9e2b1e" stroke-width="1"/>
+        <line x1="0" y1="-24" x2="0" y2="24" stroke="#9e2b1e" stroke-width="1"/>
+        <text x="0" y="34" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#9e2b1e">CORPO</text>
+      </g>
+      <!-- portas -->
+      <line x1="260" y1="420" x2="260" y2="470" stroke="#f7f2e7" stroke-width="4"/>
+      <line x1="470" y1="120" x2="470" y2="170" stroke="#f7f2e7" stroke-width="4"/>
+      <rect x="366" y="500" width="30" height="12" fill="#1c1713"/>
+      <text x="381" y="528" text-anchor="middle" font-family="Arial" font-size="8" fill="#6c5c40">ENTRADA</text>
+      <text x="735" y="70" text-anchor="end" font-family="Arial" font-size="8" fill="#9e2b1e">ala leste</text>
+    </svg>
+  </div>
+
+  <p class="small" style="margin-top:3mm"><strong>Observação da governanta:</strong> "A porta de serviço da galeria estava trancada por dentro, com a chave na fechadura. Eu mesma a tranquei às 21h. A janela da biblioteca também estava fechada."</p>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Dossiê do jogo</span><span>p. 5</span></div>
+</section>
+
+<!-- ============ LAUDO PRELIMINAR ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Prova 01 &middot; documento oficial</span>Laudo policial preliminar</h2>
+
+  <div class="serif-doc">
+    <p style="text-align:center;letter-spacing:.2em">POLÍCIA DE SOMERSET — DIVISÃO CRIMINAL<br>INQUÉRITO 21/11-BLACKWOOD</p>
+    <div class="rule-thick"></div>
+    <p><strong>Vítima:</strong> Sir Edmund Blackwood, 71 anos<br>
+    <strong>Local:</strong> Biblioteca, Mansão Blackwood, Ashcombe<br>
+    <strong>Comunicação:</strong> 22h58, pela governanta Clara Vidal<br>
+    <strong>Perito responsável:</strong> Dr. Aline Duarte<br>
+    <strong>Investigador:</strong> Insp. Margot Vance</p>
+    <div class="rule"></div>
+    <p><strong>Posição do corpo:</strong> decúbito dorsal, ao pé da poltrona de leitura, cabeça voltada para a lareira. Braço direito estendido sobre o tapete.</p>
+    <p><strong>Ferimento:</strong> laceração de aproximadamente 6 cm na região parietal esquerda. Bordas irregulares compatíveis com objeto contundente de borda dura. Não há fratura deprimida detectável no exame externo.</p>
+    <p><strong>Objeto compatível:</strong> candelabro de bronze de três braços, encontrado a 1,5 m do corpo, sobre o tapete. Sem marcas de sangue visíveis. Apreendido.</p>
+    <p><strong>Hora da morte:</strong> estimada em <strong>22h43</strong>, com base no relógio de pé da biblioteca, parado nesse horário com o vidro estilhaçado, e no rigor mortis inicial.</p>
+    <p><strong>Cena:</strong> gaveta da mesa de apoio aberta; papéis no chão; cofre fechado e intacto. A janela estava fechada por dentro. Nenhum sinal de arrombamento nas portas.</p>
+    <p><strong>Hipótese:</strong> a vítima interrompeu uma tentativa de furto; o intruso golpeou-a com o candelabro e fugiu pela porta de serviço. Solicita-se verificação de pegadas no jardim.</p>
+    <div class="rule"></div>
+    <p style="text-align:right"><em>Dr. Aline Duarte — Médica-legista</em><br>
+    <em>Insp. Margot Vance — 22/11, 03h10</em></p>
+  </div>
+
+  <h4>Notas marginais do escritório Pike &amp; Harlow</h4>
+  <div class="card tint">
+    <ul class="tight small" style="margin:0">
+      <li>A porta de serviço estava trancada <strong>por dentro</strong>, com a chave na fechadura. Nenhuma pegada foi encontrada no jardim.</li>
+      <li>O candelabro não tem sangue. Uma ferida de 6 cm deveria sangrar.</li>
+      <li>O relógio parado é conveniente demais: um relógio caído marca a hora em que caiu, não necessariamente a hora em que alguém morreu.</li>
+      <li>O relatório toxicológico foi <strong>solicitado</strong> e ainda não chegou. A audiência é segunda-feira.</li>
+    </ul>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Dossiê do jogo</span><span>p. 6</span></div>
+</section>
+
