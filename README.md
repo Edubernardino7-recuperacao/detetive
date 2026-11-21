@@ -17,9 +17,18 @@ investigação de assassinato em mansão, feito para **2 jogadores adultos**, di
 - [x] GitHub CLI instalado e **autenticado** como `Edubernardino7-recuperacao`
 - [x] Repo git init em `C:\Users\eduardo\Desktop\detetive`
 - [x] **36 imagens** baixadas em `assets/` (cenas, evidências, retratos, mansões)
-- [ ] Escrever HTML dos 2 PDFs
-- [ ] Converter HTML → PDF (Chrome headless)
-- [ ] Commit + push dos PDFs para `origin/main`
+- [x] Escrever HTML dos 2 PDFs (`jogo.html` 32 páginas · `solucao.html` 7 páginas)
+- [x] Converter HTML → PDF (Chrome headless) — **validado página a página** com
+      `pypdfium2` (`_render.py` gera PNGs em `_pages/`, `_sheet.py` monta folha de contato)
+- [x] **PDFs conferidos visualmente**: JOGO = **32 páginas** (1 por seção),
+      SOLUÇÃO = 7 páginas. Sem transbordamento.
+- [x] Commit + push dos PDFs para `origin/main` (commits `b1516aa`, `ac6913e`)
+
+### ✅ Correção aplicada (validação pós-geração)
+- O primeiro PDF do jogo saiu com **6 páginas** (leitura truncada) e depois com
+  **33 páginas** (seção "Três níveis de ajuda" com 15 caixas de dica transbordava
+  a A4). Corrigido com `.hint-cols { column-count: 2 }` → agora **32 páginas exatas**.
+- Sempre revalidar após regenerar: `python _render.py` e contar páginas.
 
 ### ⚠️ Nota técnica importante
 - A geração de imagens por IA (`experimental_image_generate`) está **quebrada**

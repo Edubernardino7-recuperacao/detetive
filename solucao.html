@@ -1,433 +1,540 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Caso Mansão Blackwood — Ficha de Solução</title>
+<meta charset="utf-8">
+<title>Caso Mansão Blackwood — Solução</title>
 <style>
-  @page { size: A4; margin: 0; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-    background: #0d0f12; color: #e8e6e1;
-    -webkit-print-color-adjust: exact; print-color-adjust: exact;
-  }
-  .page {
-    width: 210mm; height: 297mm; position: relative;
-    overflow: hidden; page-break-after: always; background: #12151a;
-  }
-  .page:last-child { page-break-after: auto; }
-
-  .cover { background: #000; }
-  .cover .bg {
-    position: absolute; inset: 0;
-    background: url('assets/vault.jpg') center/cover no-repeat;
-    filter: brightness(.5) contrast(1.2) saturate(.8);
-  }
-  .cover .veil { position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 45%, rgba(0,0,0,.92) 100%); }
-  .cover .frame {
-    position: absolute; inset: 14mm; border: 1px solid rgba(198,164,91,.55);
-    outline: 1px solid rgba(198,164,91,.22); outline-offset: 3px;
-    display: flex; flex-direction: column; justify-content: space-between;
-    padding: 12mm 10mm; text-align: center;
-  }
-  .cover .kicker { font-size: 10pt; letter-spacing: .55em; color: #c6a45b; text-transform: uppercase; margin-bottom: 6mm; }
-  .cover .case-no { display: inline-block; border: 1px solid rgba(198,164,91,.6); color: #c6a45b;
-    font-size: 9pt; letter-spacing: .3em; padding: 2.5mm 6mm; text-transform: uppercase; }
-  .cover h1 { font-family: Georgia, serif; font-size: 40pt; line-height: 1.05; color: #f4f1ea; text-shadow: 0 4px 26px rgba(0,0,0,.9); }
-  .cover h1 span { display: block; color: #c6a45b; font-size: 22pt; font-style: italic; margin-top: 3mm; }
-  .cover .rule { width: 46mm; height: 1px; background: #c6a45b; margin: 8mm auto; }
-  .cover .sub { font-size: 11pt; color: #cfc9bd; letter-spacing: .32em; text-transform: uppercase; }
-  .cover .meta { display: flex; justify-content: space-between; font-size: 8.5pt; color: #9a958a;
-    letter-spacing: .18em; text-transform: uppercase; border-top: 1px solid rgba(198,164,91,.3); padding-top: 5mm; }
-  .stamp {
-    position: absolute; top: 26mm; left: 20mm; transform: rotate(-9deg);
-    border: 3px solid #2e9e5b; color: #2e9e5b; font-weight: 800;
-    font-size: 17pt; letter-spacing: .25em; padding: 2.5mm 6mm; opacity: .85; text-transform: uppercase;
-  }
-
-  .inner { padding: 16mm 18mm; height: 100%; position: relative; display: flex; flex-direction: column; }
-  .page-head { display: flex; justify-content: space-between; align-items: baseline;
-    border-bottom: 2px solid #c6a45b; padding-bottom: 3mm; margin-bottom: 7mm; }
-  .page-head .sec { font-family: Georgia, serif; font-size: 17pt; color: #f0ede6; font-weight: 700; }
-  .page-head .sec b { color: #c6a45b; }
-  .page-head .ref { font-size: 8pt; color: #7f9aa8; letter-spacing: .22em; text-transform: uppercase; }
-  .footer { position: absolute; bottom: 8mm; left: 18mm; right: 18mm;
-    display: flex; justify-content: space-between; font-size: 7.5pt; color: #5f6a72;
-    letter-spacing: .2em; text-transform: uppercase; border-top: 1px solid #2a3038; padding-top: 3mm; }
-
-  h2 { font-family: Georgia, serif; font-size: 14pt; color: #c6a45b; margin: 6mm 0 3mm; }
-  h3 { font-size: 11pt; color: #d8d3c8; margin: 5mm 0 2.5mm; letter-spacing: .06em; text-transform: uppercase; }
-  p { font-size: 10pt; line-height: 1.65; color: #cfcbc3; margin-bottom: 3mm; text-align: justify; }
-  .lead { font-size: 11pt; color: #e6e2da; line-height: 1.7; }
-
-  .reveal {
-    background: linear-gradient(135deg, #14231a, #101a14); border: 2px solid #2e9e5b;
-    padding: 8mm; position: relative; box-shadow: 0 6px 30px rgba(46,158,91,.25);
-  }
-  .reveal .tag { position: absolute; top: -4mm; left: 6mm; background: #2e9e5b; color: #07130c;
-    font-weight: 800; font-size: 9pt; padding: 1.5mm 4mm; letter-spacing: .16em; text-transform: uppercase; }
-  .reveal .who { font-family: Georgia, serif; font-size: 26pt; color: #7ee0a8; font-weight: 700; margin-top: 3mm; }
-  .reveal .role { font-size: 9pt; color: #8fd4a8; letter-spacing: .25em; text-transform: uppercase; margin-bottom: 4mm; }
-  .reveal p { color: #cfe6d8; }
-
-  .doc { background: #f2ecdd; color: #23201a; padding: 8mm 9mm;
-    font-family: 'Courier New', monospace; font-size: 9.5pt; line-height: 1.6;
-    border-left: 4px solid #b9a06a; box-shadow: 0 3px 18px rgba(0,0,0,.55); }
-  .doc .dh { display: flex; justify-content: space-between; border-bottom: 2px solid #23201a;
-    padding-bottom: 2.5mm; margin-bottom: 4mm; font-weight: 700; font-size: 9pt;
-    letter-spacing: .12em; text-transform: uppercase; }
-  .doc p { color: #2a261f; font-size: 9.5pt; margin-bottom: 2.5mm; text-align: left; }
-  .paper { background: #efe8d6; color: #2b2620; padding: 8mm 9mm; font-family: Georgia, serif;
-    font-size: 10pt; line-height: 1.7; box-shadow: 0 3px 18px rgba(0,0,0,.55); border-left: 4px solid #8a6d3b; }
-
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
-  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; }
-  .photo { position: relative; overflow: hidden; border: 1px solid #333a42; box-shadow: 0 4px 20px rgba(0,0,0,.6); background: #000; }
-  .photo img { width: 100%; display: block; filter: contrast(1.06) saturate(.92); }
-  .photo .cap { position: absolute; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,.92)); color: #cfc9bd;
-    font-size: 7.5pt; padding: 6mm 3mm 2mm; letter-spacing: .1em; text-transform: uppercase; }
-  .photo .tag { position: absolute; top: 2mm; left: 2mm; background: #c6a45b; color: #14100a;
-    font-size: 7.5pt; font-weight: 800; padding: 1mm 2.5mm; letter-spacing: .1em; z-index:2; }
-
-  .ev { border: 1px solid #2f363e; background: #161a1f; padding: 5mm; position: relative; }
-  .ev .n { display: inline-block; background: #c6a45b; color: #14100a; font-weight: 800;
-    font-size: 8.5pt; padding: 1mm 3mm; margin-bottom: 3mm; letter-spacing: .08em; }
-  .ev h4 { font-family: Georgia, serif; font-size: 11pt; color: #f0ede6; margin-bottom: 2mm; }
-  .ev p { font-size: 9pt; color: #b6b1a8; margin: 0; line-height: 1.55; text-align: left; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 9pt; }
-  th { background: #1f252c; color: #c6a45b; text-align: left; padding: 3mm;
-    letter-spacing: .1em; text-transform: uppercase; font-size: 8pt; border-bottom: 2px solid #c6a45b; }
-  td { padding: 3mm; border-bottom: 1px solid #262c33; color: #c8c3ba; vertical-align: top; }
-  tr:nth-child(even) td { background: rgba(255,255,255,.015); }
-  .doc table th { background: #ddd3ba; color: #23201a; border-bottom: 2px solid #23201a; }
-  .doc table td { color: #2a261f; border-bottom: 1px solid #c9bfa6; }
-
-  .puzzle { border: 1px solid #3a424b; background: linear-gradient(180deg,#161b21,#12161b);
-    padding: 7mm; position: relative; }
-  .puzzle .badge { position: absolute; top: -4mm; left: 6mm; background: #c6a45b; color: #14100a;
-    font-weight: 800; font-size: 9pt; padding: 1.5mm 4mm; letter-spacing: .12em; text-transform: uppercase; }
-  .puzzle h3 { color: #f0ede6; margin-top: 2mm; font-size: 12pt; }
-  .puzzle .diff { font-size: 8pt; color: #7f9aa8; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 3mm; }
-  .cipher { background: #0c0e11; border: 1px solid #333a42; padding: 6mm;
-    font-family: 'Courier New', monospace; font-size: 13pt; letter-spacing: .3em;
-    color: #8fd48f; text-align: center; line-height: 2.1; word-break: break-all; }
-  .deciph { background: #101a12; border: 1px solid #2e9e5b; padding: 6mm;
-    font-family: 'Courier New', monospace; font-size: 13.5pt; letter-spacing: .22em;
-    color: #7ee0a8; text-align: center; line-height: 2; font-weight: 700; }
-
-  .steps { counter-reset: st; list-style: none; }
-  .steps li { counter-increment: st; font-size: 10pt; color: #cfcbc3;
-    padding: 3mm 0 3mm 11mm; position: relative; line-height: 1.6; border-bottom: 1px solid #23292f; }
-  .steps li::before { content: counter(st); position: absolute; left: 0; top: 3mm;
-    width: 6.5mm; height: 6.5mm; background: #c6a45b; color: #14100a; font-weight: 800;
-    font-size: 9pt; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
-
-  .timeline { border-left: 2px solid #c6a45b; margin-left: 8mm; padding-left: 7mm; }
-  .tl-item { position: relative; padding: 2.5mm 0; }
-  .tl-item::before { content: ''; position: absolute; left: -8.6mm; top: 4.5mm;
-    width: 3mm; height: 3mm; background: #c6a45b; border-radius: 50%; box-shadow: 0 0 0 3px #12151a; }
-  .tl-item .t { color: #c6a45b; font-weight: 800; font-size: 9.5pt; letter-spacing: .08em; }
-  .tl-item .d { color: #c8c3ba; font-size: 9.5pt; line-height: 1.55; }
-  .tl-item.culprit::before { background: #e05a5a; box-shadow: 0 0 0 3px #12151a; }
-  .tl-item.culprit .t { color: #e05a5a; }
-
-  .note { background: rgba(127,154,168,.08); border-left: 3px solid #7f9aa8;
-    padding: 4mm 5mm; font-size: 9pt; color: #a9bcc6; line-height: 1.6; }
-  .note b { color: #cfe0e8; }
-  .green { background: rgba(46,158,91,.1); border-left: 3px solid #2e9e5b;
-    padding: 4mm 5mm; font-size: 9pt; color: #a9d6bc; line-height: 1.6; }
-  .green b { color: #7ee0a8; }
-  .red { background: rgba(168,50,50,.1); border-left: 3px solid #a83232;
-    padding: 4mm 5mm; font-size: 9pt; color: #d9a8a8; line-height: 1.6; }
-  .red b { color: #e05a5a; }
-  .fill { display: inline-block; border-bottom: 1.5px dotted #6b7681; min-width: 45mm; height: 6mm; }
-  .check { color: #7ee0a8; font-weight: 800; }
-  .cross { color: #e05a5a; font-weight: 800; }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1c1713; background: #ded8cc; font-size: 10.5pt; line-height: 1.52;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page { position: relative; width: 210mm; min-height: 297mm; padding: 16mm 16mm 14mm; background: #f7f2e7; page-break-after: always; }
+.page:last-child { page-break-after: auto; }
+.foot { position: absolute; left: 16mm; right: 16mm; bottom: 7mm; font-family: Arial, Helvetica, sans-serif; font-size: 6.8pt; letter-spacing: .18em; text-transform: uppercase; color: #8d8069; border-top: .5pt solid #cabf9f; padding-top: 2mm; display: flex; justify-content: space-between; }
+.cover { padding: 0; overflow: hidden; background: #0d0b0a; color: #f5ebd6; }
+.cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .4; filter: grayscale(.4) contrast(1.1); }
+.cover-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,7,6,.88) 0%, rgba(8,7,6,.35) 42%, rgba(8,7,6,.94) 100%); }
+.cover-inner { position: absolute; inset: 0; padding: 22mm 20mm; display: flex; flex-direction: column; justify-content: space-between; }
+.eyebrow { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .32em; text-transform: uppercase; color: #b08d57; }
+.cover h1 { font-size: 41pt; line-height: 1.03; font-weight: normal; margin: 6mm 0 4mm; letter-spacing: -.5pt; }
+.cover h1 em { color: #c9a267; font-style: italic; }
+.cover .sub { font-size: 12pt; color: #d9cdb6; font-style: italic; }
+.cover-meta { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .22em; text-transform: uppercase; color: #cbbfa8; }
+.cover-meta span { display: inline-block; margin-right: 7mm; }
+.badge-secret { align-self: flex-start; border: 2.5pt solid #b08d57; color: #e2c48f; padding: 2.5mm 5mm; font-family: Arial, Helvetica, sans-serif; font-size: 7.4pt; letter-spacing: .26em; text-transform: uppercase; transform: rotate(-3deg); }
+h2.sec { font-weight: normal; font-size: 21pt; line-height: 1.1; margin: 0 0 2mm; letter-spacing: -.3pt; }
+h2.sec .num { display: block; font-family: Arial, Helvetica, sans-serif; font-size: 7.4pt; letter-spacing: .3em; color: #9a6b39; text-transform: uppercase; margin-bottom: 2.5mm; }
+h3 { font-weight: normal; font-size: 13pt; margin: 6mm 0 2mm; }
+h4 { font-family: Arial, Helvetica, sans-serif; font-size: 7.6pt; letter-spacing: .22em; text-transform: uppercase; margin: 5mm 0 1.5mm; color: #7d511f; }
+p { margin: 0 0 3mm; }
+.lead { font-size: 12pt; font-style: italic; color: #4a3f31; line-height: 1.45; }
+.small { font-size: 8.6pt; color: #5e5343; }
+.rule { height: .7pt; background: #c7b992; margin: 4mm 0; }
+.rule-thick { height: 2.4pt; background: #1c1713; margin: 3mm 0 5mm; }
+.drop::first-letter { float: left; font-size: 40pt; line-height: .82; padding: 1mm 2mm 0 0; color: #8c1c13; }
+.serif-doc { font-family: "Courier New", Courier, monospace; font-size: 9.4pt; line-height: 1.55; }
+blockquote { margin: 3mm 0; padding: 3mm 0 3mm 5mm; border-left: 2pt solid #b08d57; font-style: italic; color: #3f3629; }
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 4mm; }
+.card { background: #fffdf6; border: .8pt solid #d5c9a9; padding: 4.5mm; }
+.card.tint { background: #f0e8d6; }
+.card.dark { background: #1d1915; border-color: #3d352a; color: #e8dcc4; }
+.card.dark .small { color: #cbbfa8; }
+.card h4 { margin-top: 0; }
+.pill { display: inline-block; font-family: Arial, Helvetica, sans-serif; font-size: 6.8pt; letter-spacing: .18em; text-transform: uppercase; background: #1c1713; color: #f3e9d4; padding: 1mm 2.6mm; }
+.pill.red { background: #8c1c13; }
+.photo { width: 100%; display: block; object-fit: cover; filter: saturate(.82) contrast(1.04); }
+.photo.banner { height: 62mm; }
+.photo.smallband { height: 38mm; }
+.photo-frame { border: .8pt solid #cbbd9c; background: #fffdf6; padding: 2.5mm; }
+.photo-frame figcaption { font-family: Arial, Helvetica, sans-serif; font-size: 6.9pt; letter-spacing: .08em; color: #6b5d46; padding-top: 2mm; text-transform: uppercase; }
+table { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
+th { font-family: Arial, Helvetica, sans-serif; font-size: 7pt; letter-spacing: .14em; text-transform: uppercase; text-align: left; background: #1c1713; color: #f1e6d0; padding: 2.2mm 2.4mm; font-weight: normal; }
+td { border-bottom: .6pt solid #d3c7a9; padding: 2.2mm 2.4mm; vertical-align: top; }
+tr:nth-child(even) td { background: #fbf7ec; }
+td.time { font-family: "Courier New", monospace; font-weight: bold; white-space: nowrap; }
+.table-dark th { background: #8c1c13; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.6mm; }
+ul.tight li { margin-bottom: .8mm; }
+.checklist { list-style: none; padding-left: 0; }
+.checklist li { padding-left: 6mm; position: relative; }
+.checklist li:before { content: "✓"; position: absolute; left: 0; top: 0; color: #8c1c13; font-weight: bold; }
+.quote-box { background: #f0e6cf; border-left: 3pt solid #9e2b1e; padding: 4mm 5mm; font-style: italic; }
+.keybox { font-family: "Courier New", monospace; letter-spacing: .18em; background: #fffdf6; border: .8pt solid #d5c9a9; padding: 4mm; font-size: 9pt; line-height: 1.9; }
+.answer { color: #8c1c13; font-weight: bold; }
 </style>
 </head>
 <body>
 
-<!-- ============ COVER ============ -->
-<div class="page cover">
-  <div class="bg"></div><div class="veil"></div>
-  <div class="stamp">Resolvido</div>
-  <div class="frame">
-    <div style="text-align:center">
-      <div class="kicker">Divisão de Homicídios · Acesso restrito</div>
-      <div class="case-no">Caso nº 047-B · Ficha de Solução</div>
+<!-- ============ CAPA ============ -->
+<section class="page cover">
+  <img class="cover-img" src="assets/library_stacks.jpg" alt="Biblioteca">
+  <div class="cover-shade"></div>
+  <div class="cover-inner">
+    <div>
+      <div class="eyebrow">Gabarito &middot; não abrir antes da acusação</div>
+      <h1>O Caso<br><em>Mansão Blackwood</em></h1>
+      <p class="sub">Solução completa, linha do tempo real,<br>chave da cifra e explicação de cada puzzle.</p>
     </div>
-    <div style="text-align:center">
-      <h1>MANSÃO<br>BLACKWOOD<span>Ficha de Solução &amp; Decodificação</span></h1>
-      <div class="rule"></div>
-      <div class="sub">Não leia antes de preencher a acusação</div>
-    </div>
-    <div class="meta">
-      <span>Investigadores: ______ + ______</span>
-      <span>Acusação entregue em: ___/___/______</span>
-      <span>Caso encerrado</span>
+    <div><div class="badge-secret">Solução &middot; confidencial</div></div>
+    <div>
+      <div class="rule" style="background:#4a4033"></div>
+      <div class="cover-meta"><span>Spoilers totais</span><span>2 jogadores</span><span>Leia após a acusação</span></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ============ PAGE 2: SOLUTION SUMMARY ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">Solução <b>Resumida</b></div><div class="ref">Sol. 01 · Visão geral</div></div>
+<!-- ============ SOLUÇÃO RESUMIDA ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Solução em uma página</span>Quem matou Sir Edmund</h2>
 
-    <div class="reveal">
-      <span class="tag">O culpado</span>
-      <div class="who">Dr. Henrique Salles</div>
-      <div class="role">Médico pessoal · 58 anos · 30 anos de serviço à família</div>
-      <p>Salles envenenou Edmund Blackwood com <b>14 cápsulas de digoxina destampadas</b> e dissolvidas no uísque, entre <b>22h35 e 22h47</b>. O golpe na cabeça foi aplicado <b>depois da morte</b>, com o candelabro de bronze, para encenar um homicídio por violência e desviar o inquérito do veneno. Seu álibi — "atendia telemarketing das 22h10 às 22h45" — é <b>falso</b>: o registro telefônico não mostra nenhuma chamada em curso no período.</p>
-    </div>
-
-    <div class="grid3" style="margin-top:6mm">
-      <div class="ev"><span class="n">MOTIVO</span><p>Edmund descobriu as notas fiscais falsas de Salles (Evidência 9) e escreveu no verso: <b>"Ele falsificou. Segunda-feira, o conselho."</b> A denúncia destruiria a carreira e a liberdade de Salles.</p></div>
-      <div class="ev"><span class="n">MEIO</span><p>Salles prescrevia e manuseava a <b>digoxina</b> de Edmund (Evidência 4). Ele era a <b>única</b> pessoa com acesso legítimo ao frasco e conhecimento para calcular a dose letal e o método de dissolução.</p></div>
-      <div class="ev"><span class="n">OPORTUNIDADE</span><p>Janela de <b>12 minutos</b> (22h35–22h47). Salles saiu do escritório pelo corredor leste, entrou na biblioteca, aplicou o veneno, voltou e <b>encenou a cena</b>. O relógio do hall parou às <b>22h43</b> — quando ele passou por ali.</p></div>
-    </div>
-
-    <h2>As 5 peças que condenam</h2>
-    <table>
-      <tr><th style="width:26mm">Prova</th><th>O que mostra</th><th style="width:40mm">Por que condena</th></tr>
-      <tr><td><b>Evidência 5 + 7</b></td><td>Registro telefônico: nenhuma chamada em curso entre 22h10 e 22h45; só uma tentativa cancelada às 22h31.</td><td>Desmonta o álibi de Salles com <b>registro duro</b>, não testemunha.</td></tr>
-      <tr><td><b>Evidência 4</b></td><td>Frasco de digoxina: 16 cápsulas restantes de 30 = <b>14 faltando</b>.</td><td>14 cápsulas = dose letal exata. Alguém teve acesso ao frasco.</td></tr>
-      <tr><td><b>Evidência 2</b></td><td>Resíduo granular na taça + toxicológico.</td><td>O veneno foi <b>destampado e misturado ao uísque</b> — exige conhecimento médico.</td></tr>
-      <tr><td><b>Necropsia</b></td><td>Ferida na nuca <b>sem hemorragia nem coágulos</b>.</td><td>Golpe aplicado <b>após</b> a morte = encenação.</td></tr>
-      <tr><td><b>Evidência 6</b></td><td>Relógio do hall <b>parado às 22h43</b> por impacto.</td><td>Marca o momento exato em que Salles transitou pelo hall — onde ele disse estar no escritório.</td></tr>
-    </table>
-
-    <div class="green" style="margin-top:6mm"><b>Resposta da acusação:</b> 1) Dr. Henrique Salles · 2) Impedir a denúncia ao conselho médico por fraude em notas fiscais · 3) 14 cápsulas de digoxina destampadas no uísque · 4) Saiu do escritório 22h35, entrou pela biblioteca, voltou e encenou · 5) Evidência 5 + Evidência 7 · 6) Sim — ferida póstuma · 7) Salles (único álibi desmentido por registro duro).</div>
-
-    <div class="footer"><span>Solução 01 · Resumo</span><span>Página 2</span></div>
+  <div class="card dark" style="padding:6mm;margin-top:2mm">
+    <div class="eyebrow" style="color:#c9a267">Culpado</div>
+    <p style="font-size:26pt;margin:1mm 0 3mm;line-height:1.05">Dr. Henrique Salles</p>
+    <p class="small" style="margin:0 0 2mm"><strong>Motivo:</strong> Edmund descobriu as receitas falsas de digoxina em nome de "J. Prado" e a ligação de Salles com a morte de Helena, a primeira esposa, doze anos antes. Ia denunciá-lo na segunda-feira.</p>
+    <p class="small" style="margin:0 0 2mm"><strong>Meio:</strong> oito cápsulas de digoxina (2,0 mg) esvaziadas no uísque que ele mesmo levou à biblioteca às 22h20.</p>
+    <p class="small" style="margin:0"><strong>Oportunidade:</strong> 22h30–22h52, o único intervalo da noite em que ninguém confirma onde ele estava — e o único em que ele estava na biblioteca.</p>
   </div>
-</div>
 
-<!-- ============ PAGE 3: TRUE TIMELINE ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">A Linha do Tempo <b>Real</b></div><div class="ref">Sol. 02 · Narrativa verdadeira</div></div>
-
-    <p class="lead">Esta é a sequência verdadeira de eventos da noite de 14 de novembro. Os itens em <span style="color:#e05a5a">vermelho</span> são os atos do culpado; os demais são o pano de fundo que permitiu o crime.</p>
-
-    <div class="timeline" style="margin-top:5mm">
-      <div class="tl-item"><div class="t">18h02</div><div class="d">Salles liga do escritório à residência, 6 min. Pode ser aqui que ele soube do envelope no cofre.</div></div>
-      <div class="tl-item"><div class="t">20h00 – 21h00</div><div class="d">Jantar. Todos os seis presentes. Edmund anuncia que "mudanças importantes" virão na segunda-feira. Tensão visível.</div></div>
-      <div class="tl-item"><div class="t">21h00</div><div class="d">Kloss deixa a mesa para fumar no jardim. Edmund recolhe-se à biblioteca.</div></div>
-      <div class="tl-item"><div class="t">21h40</div><div class="d">Isabel digita a última carta de Edmund. Ele a manda sair. <b>Última testemunha a vê-lo vivo trabalhando.</b></div></div>
-      <div class="tl-item culprit"><div class="t">22h10 – 22h35</div><div class="d"><b>Salles vai ao escritório</b> — pega o frasco de digoxina de Edmund (que ficava na gaveta da escrivaninha, à vista de quem se sentasse ali). <b>Não há testemunha</b> deste período.</div></div>
-      <div class="tl-item culprit"><div class="t">22h31</div><div class="d"><b>Registro telefônico: tentativa de chamada cancelada antes do atendimento</b> — a única "prova" do álibi de Salles. Não é uma ligação recebida em curso.</div></div>
-      <div class="tl-item culprit"><div class="t">22h35 – 22h43</div><div class="d"><b>Salles entra na biblioteca</b> pela porta do corredor leste. Destampa 14 cápsulas, dissolve o pó no uísque de Edmund. Edmund, de costas escrevendo, bebe. <b>Salles sai sem ser visto.</b></div></div>
-      <div class="tl-item culprit"><div class="t">22h43</div><div class="d"><b>O relógio de pêndulo do hall para</b> — Salles o atingiu ao passar apressado pelo corredor (o pêndulo foi desalojado, houve queda real, sem adulteração manual).</div></div>
-      <div class="tl-item"><div class="t">≈22h44</div><div class="d">A digoxina em dose massiva provoca fibrilação ventral. <b>Edmund morre.</b></div></div>
-      <div class="tl-item culprit"><div class="t">22h44 – 22h46</div><div class="d"><b>Encenação:</b> Salles volta à biblioteca, agarra o candelabro de bronze e aplica o golpe occipital <b>no cadáver</b>. Como não há circulação, a ferida <b>não sangra</b> — o erro forense que denuncia tudo. Ele limpa/luva o candelabro e o deixa caído ao lado.</div></div>
-      <div class="tl-item"><div class="t">22h47</div><div class="d">Clara chega com o chá e encontra o corpo. Polícia chamada às 23h02; chegada 23h12.</div></div>
-      <div class="tl-item"><div class="t">23h40</div><div class="d">Cofre aberto pela perícia: conteúdo íntegro, incluindo o envelope "PARA O CONSELHO MÉDICO". <b>Prova de que o motivo de Salles estava lá o tempo todo.</b></div></div>
-    </div>
-
-    <div class="red" style="margin-top:5mm"><b>Por que a encenação funcionou (quase):</b> o golpe na cabeça fez a polícia trabalhar sob a hipótese de "homicídio por violência" (laudo preliminar, pág. 3). Sem o toxicológico, Salles teria saído ileso — era exatamente o que ele calculou, sabendo que a digoxina é de difícil detecção em dose usual. A overdose massiva (4,8 ng/mL) foi o que o entregou.</div>
-
-    <div class="footer"><span>Solução 02 · Linha do tempo real</span><span>Página 3</span></div>
-  </div>
-</div>
-
-<!-- ============ PAGE 4: PUZZLE 1 & 2 SOLUTIONS ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">Solução dos <b>Puzzles 1 &amp; 2</b></div><div class="ref">Sol. 03 · Passo a passo</div></div>
-
-    <div class="puzzle">
-      <span class="badge">Puzzle 1 · Linha do tempo</span>
-      <h3>Janela do crime: 22h35 – 22h47</h3>
-      <div class="diff">Quem não tem álibi verificável</div>
-
-      <table style="margin-top:4mm">
-        <tr><th style="width:20mm">Hora</th><th>Evento real</th><th style="width:34mm">Fonte dura</th><th style="width:24mm">Álibi</th></tr>
-        <tr><td>21h00</td><td>Kloss sai para o jardim (sem testemunha até 22h30)</td><td>Declaração</td><td class="check">Parcial</td></tr>
-        <tr><td>21h40</td><td>Isabel sai da biblioteca</td><td>Declaração</td><td class="check">OK</td></tr>
-        <tr><td>22h09–22h52</td><td>Vitória em ligação de 43 min</td><td>Evidência 5</td><td class="check">OK (duro)</td></tr>
-        <tr><td>22h10–22h45</td><td><b>Salles alega telemarketing — FALSO</b></td><td>Evidência 5 + 7</td><td class="cross">FALSO</td></tr>
-        <tr><td>22h30</td><td>Clara vê Kloss saindo pelos fundos</td><td>Declaração</td><td class="check">OK</td></tr>
-        <tr><td>22h43</td><td>Relógio do hall para (impacto)</td><td>Evidência 6</td><td>—</td></tr>
-        <tr><td>22h47</td><td>Clara encontra o corpo</td><td>Laudo</td><td class="check">OK</td></tr>
-      </table>
-
-      <p style="margin-top:4mm; font-size:9.5pt"><b>Resposta:</b> entre 22h35 e 22h47, apenas <b>Dr. Salles</b> não possui álibi verificável por fonte dura. Rafael e Vitória estão um ao lado do outro na sala (dois confirmam); Clara até 22h40 com Nilton; Kloss visto saindo às 22h30; Isabel no quarto. <b>Salles é o único "invisível"</b> — e é o único cuja declaração é desmentida por registro telefônico.</p>
-
-      <div class="note" style="margin-top:3mm"><b>Conceito-chave:</b> álibi confirmado por <b>registro duro</b> (telefone, câmera, portão) vale mais que testemunha. O relógio parado às 22h43 não é álibi de ninguém — é <b>marcador do crime</b>: mostra que houve impacto no hall no exato minuto da ação de Salles.</div>
-    </div>
-
-    <div class="puzzle" style="margin-top:8mm">
-      <span class="badge">Puzzle 2 · Cifra de César</span>
-      <h3>Decodificação completa</h3>
-      <div class="diff">Deslocamento −7 · A = H no alfabeto cifrado</div>
-
-      <div class="cipher" style="margin-top:4mm">
-        TLYHAZ WVCLY &nbsp; TLLA &nbsp; AOPZ &nbsp; PUM BR<br>
-        AOPZ &nbsp; DL &nbsp; AOPZ &nbsp; TLZZHNL &nbsp; AOPZ &nbsp; PAATL &nbsp; DLYZ<br>
-        ZLYYHJL &nbsp; PU AOL &nbsp; HUVA &nbsp; ALZA &nbsp; 17/03
-      </div>
-
-      <div style="text-align:center; font-size:16pt; color:#c6a45b; margin:4mm 0">▼ deslocamento −7 ▼</div>
-
-      <div class="deciph">
-        MORTE VENENO &nbsp; FOI &nbsp; ELE NÃO<br>
-        ELE DE ELE TRAIU ELE MATA OUTROS<br>
-        ESCREVA NO AVERBEL &nbsp; COFRE &nbsp; 17/03
-      </div>
-
-      <p style="margin-top:4mm; font-size:9.5pt"><b>Como decifrar (passo a passo):</b></p>
-      <ol class="steps" style="font-size:9.5pt">
-        <li>Monte o alfabeto normal e o alfabeto deslocado +7 (A→H, B→I, C→J...).</li>
-        <li>Para cada letra cifrada, localize-a na linha <b>deslocada</b> e pegue o equivalente na linha <b>normal</b>.</li>
-        <li>Ex.: <b>T</b> → <b>M</b>, <b>L</b> → <b>E</b>, <b>Y</b> → <b>R</b>, <b>H</b> → <b>A</b>, <b>A</b> → <b>T</b>, <b>Z</b> → <b>S</b> = <b>MORTE</b>.</li>
-        <li><b>WVCLY</b> → VENENO · <b>AOPZ</b> → FOI · <b>DL</b> → DE · <b>TLZZHNL</b> → TRAIU · <b>PAATL</b> → MATA.</li>
-        <li>A última linha entrega a <b>data do cofre: 17/03</b> — que Edmund anotou na capa do caderno ("data do nosso começo").</li>
+  <div class="g2" style="margin-top:5mm">
+    <div class="card">
+      <h4 style="margin-top:0">As três provas que fecham o caso</h4>
+      <ol class="small" style="margin:0">
+        <li><strong>Prova 15 — toxicologia:</strong> digoxina 6,8 ng/mL; ferida craniana post mortem, sem reação vital.</li>
+        <li><strong>Prova 05 — a conta das cápsulas:</strong> 8 cápsulas a mais que o prescrito; 2,0 mg.</li>
+        <li><strong>Prova 10 + 12 — as receitas falsas:</strong> a carta do farmacêutico e os doze receituários no cofre, todos assinados por Salles.</li>
       </ol>
-
-      <div class="green" style="margin-top:4mm"><b>O que a cifra prova:</b> Edmund sabia e escreveu, antes de morrer, que <b>"a morte veio do veneno — foi ele"</b>, que ele <b>traiu</b> e <b>mata outros</b>. A mensagem é direta: denuncia Salles por nome implícito (quem "traiu" a confiança médica) e manda abrir o cofre com a data 17/03 — lá dentro está o envelope "PARA O CONSELHO MÉDICO".</div>
     </div>
-
-    <div class="footer"><span>Solução 03 · Puzzles 1 e 2</span><span>Página 4</span></div>
+    <div class="card tint">
+      <h4 style="margin-top:0">Em trinta segundos</h4>
+      <p class="small" style="margin:0">Salles envenenou o uísque do paciente, deixou a biblioteca às 22h30 e voltou às 22h43 para encenar um assalto: golpeou o corpo já morto com o candelabro e derrubou o relógio para fixar a hora da "agressão" depois de sua saída. Clara o viu no corredor às 22h52 — o horário que ele nunca mencionou.</p>
+    </div>
   </div>
-</div>
 
-<!-- ============ PAGE 5: PUZZLE 3 & 4 SOLUTIONS ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">Solução dos <b>Puzzles 3 &amp; 4</b></div><div class="ref">Sol. 04 · Passo a passo</div></div>
+  <h4>A cena montada, em quatro gestos</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:34mm">Gesto</th><th>Por quê</th></tr>
+    <tr><td>Candelabro</td><td>Dar ao corpo uma causa de morte visível. Veneno não deixa marca externa.</td></tr>
+    <tr><td>Relógio derrubado</td><td>Fixar a morte às 22h43 — depois das 22h30, quando ele já havia saído.</td></tr>
+    <tr><td>Gaveta aberta e papéis no chão</td><td>Sugerir furto interrompido, sem levar nada de valor.</td></tr>
+    <tr><td>Porta de serviço trancada por dentro</td><td>Eliminar a hipótese de intruso — e empurrar a investigação para dentro de casa.</td></tr>
+  </table>
 
-    <div class="puzzle">
-      <span class="badge">Puzzle 3 · Forense</span>
-      <h3>Respostas da dedução científica</h3>
-      <div class="diff">Necropsia × toxicologia × evidências</div>
+  <div class="quote-box" style="margin-top:5mm">
+    O erro de Salles não foi o veneno. Foi a pressa: um médico que quisesse matar sem levantar suspeita teria esperado a morte natural que o próprio remédio produziria. Ele precisou que Edmund morresse <em>naquela noite</em>, antes da segunda-feira — e por isso deixou um rastro de cápsulas, receitas e um horário sem testemunha.
+  </div>
 
-      <table style="margin-top:4mm">
-        <tr><th style="width:14mm">Item</th><th>Resposta</th><th style="width:66mm">Prova</th></tr>
-        <tr><td><b>a)</b></td><td><b>Envenenamento por digoxina</b> (fibrilação ventricular aguda), não traumatismo.</td><td>Laudo toxicológico: 4,8 ng/mL (letal &gt; 2,0); necropsia: sem cardiopatia crônica capaz de explicar o óbito súbito.</td></tr>
-        <tr><td><b>b)</b></td><td><b>Depois da morte</b> — o golpe foi aplicado a um cadáver.</td><td>Ferida sem hemorragia ativa, sem coágulos, sem infiltrado sanguíneo = <b>ausência de reação vital</b>.</td></tr>
-        <tr><td><b>c)</b></td><td><b>Pó de cápsulas destampadas dissolvido no uísque.</b></td><td>Resíduo granular nas paredes da taça; toxicológico indica princípio ativo "não encapsulado" no gástrico.</td></tr>
-        <tr><td><b>d)</b></td><td><b>14 cápsulas faltantes</b> = dose letal exata.</td><td>Frasco lacrado com 30, restam 16 (Evidência 4). 14 é o piso da faixa letal (14–18) citada pelo IML. Prova acesso ao frasco.</td></tr>
-        <tr><td><b>e)</b></td><td>O autor <b>tinha conhecimento médico</b>: sabia que digoxina é difícil de detectar, exigia dose massiva e como dissolver.</td><td>Laudo: "apresenta-se como pó disperso — destampado das cápsulas". Léigo não saberia calcular 14 cápsulas nem escolher glicosídeo cardíaco.</td></tr>
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 2</span></div>
+</section>
+
+<!-- ============ LINHA DO TEMPO REAL ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 1 resolvido</span>A linha do tempo real</h2>
+  <p class="small">Tudo abaixo tem uma fonte no dossiê. O que não tem fonte está marcado como <em>inferência</em>.</p>
+
+  <table style="margin-top:4mm;font-size:8.4pt">
+    <tr><th style="width:20mm">Hora</th><th>O que aconteceu de verdade</th><th style="width:40mm">Fonte</th></tr>
+    <tr><td class="time">19h30</td><td>Jantar com os seis presentes. Edmund tenso; discussão contida com Sérgio.</td><td>Declarações</td></tr>
+    <tr><td class="time">20h50</td><td>Café na sala de estar. Edmund retira-se para a biblioteca por volta das 21h.</td><td>Declarações</td></tr>
+    <tr><td class="time">21h05</td><td>Vitória sobe. Diz que vai tomar banho e deitar.</td><td>Declaração</td></tr>
+    <tr><td class="time">21h15</td><td>Rafael sai de carro para o pub, na vila.</td><td>Declaração + câmera</td></tr>
+    <tr><td class="time">21h25</td><td>Rafael chega ao The Hollow Crown.</td><td>Barman (Prova 08)</td></tr>
+    <tr><td class="time">21h31</td><td>Salles liga para a clínica em Londres, do telefone do hall. Duração: 12 min.</td><td>Registro (Prova 07)</td></tr>
+    <tr><td class="time">21h50</td><td>Clara tranca a porta de serviço por dentro e guarda a chave.</td><td>Declaração de Clara</td></tr>
+    <tr><td class="time">21h58</td><td>Rafael paga a conta no pub.</td><td>Recibo (Prova 08)</td></tr>
+    <tr><td class="time">22h05</td><td>Marcos, o motorista, entra pelo portão de serviço e sobe ao quarto de Vitória.</td><td>Câmera 22h40 + declaração de Marcos</td></tr>
+    <tr><td class="time">22h20</td><td>Salles chega à biblioteca com o uísque e o frasco de digoxina.</td><td>Declaração de Salles</td></tr>
+    <tr><td class="time">22h20–22h30</td><td>Salles esvazia oito cápsulas no copo. Edmund não vê: está de costas, nas estantes.</td><td>Inferência + Provas 04, 05 e 15</td></tr>
+    <tr><td class="time">22h30</td><td>Salles sai e sobe. É a última vez que alguém o vê até 22h52 — segundo ele.</td><td>Declaração de Salles</td></tr>
+    <tr><td class="time">22h31</td><td>Edmund bebe o uísque.</td><td>Inferência (resíduo no copo)</td></tr>
+    <tr><td class="time">22h35–22h40</td><td>Primeiros sintomas: náusea, arritmia. Edmund senta-se na poltrona.</td><td>Inferência médica</td></tr>
+    <tr><td class="time">22h38</td><td>Isabel desce a escada de serviço com um envelope: o rascunho do testamento.</td><td>Clara (Prova 14)</td></tr>
+    <tr><td class="time">22h40</td><td>O sedã de Marcos é registrado entrando no pátio pelo portão de serviço.</td><td>Câmera (Prova 09)</td></tr>
+    <tr><td class="time">22h43</td><td>Salles volta à biblioteca. Encontra Edmund moribundo (ou já morto). Golpeia o corpo com o candelabro e derruba o relógio.</td><td>Inferência + Provas 03, 06 e 15</td></tr>
+    <tr><td class="time">22h46</td><td>Sérgio desliga o telefone do hall.</td><td>Registro (Prova 07)</td></tr>
+    <tr><td class="time">22h52</td><td>Salles pega o telefone do hall, ouve o sinal e desliga sem completar a chamada. Clara o vê no corredor da biblioteca, com a bolsa médica.</td><td>Registro 22h52 + Clara</td></tr>
+    <tr><td class="time">22h55</td><td>Clara encontra o corpo e grita.</td><td>Declaração de Clara</td></tr>
+    <tr><td class="time">22h58</td><td>A polícia é chamada.</td><td>Laudo preliminar</td></tr>
+    <tr><td class="time">23h04</td><td>Tomás liga para Rafael, na vila.</td><td>Registro (Prova 07)</td></tr>
+    <tr><td class="time">23h07</td><td>Rafael chega. A câmera registra o carro.</td><td>Câmera (Prova 09)</td></tr>
+  </table>
+
+  <div class="card tint" style="margin-top:4mm">
+    <p class="small" style="margin:0"><strong>O que o relógio prova:</strong> que alguém o derrubou às 22h43. <strong>O que ele não prova:</strong> a hora da morte. A polícia confundiu as duas coisas, e Salles contava com isso.</p>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 3</span></div>
+</section>
+
+<!-- ============ PUZZLE 1 RESPOSTAS ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 1 &middot; respostas</span>Quem tem álibi — e quem não tem</h2>
+
+  <table style="margin-top:3mm">
+    <tr><th style="width:30mm">Pessoa</th><th style="width:52mm">22h30–22h52</th><th>Álibi verificável?</th></tr>
+    <tr><td><strong>Rafael</strong></td><td>No pub, no balcão</td><td><span class="answer">Sim</span> — recibo 21h58 + barman até 23h05</td></tr>
+    <tr><td><strong>Clara</strong></td><td>Na despensa com Tomás</td><td><span class="answer">Sim</span> — testemunha ocular durante toda a janela</td></tr>
+    <tr><td><strong>Sérgio</strong></td><td>No hall, ao telefone</td><td><span class="answer">Sim</span> — registro 22h28–22h46, 18 min</td></tr>
+    <tr><td><strong>Vitória</strong></td><td>No quarto — com Marcos</td><td><span class="answer">Parcial</span> — Marcos confirma 22h40–22h58; antes disso, ela está sozinha</td></tr>
+    <tr><td><strong>Isabel</strong></td><td>No escritório — mas vista na escada às 22h38</td><td><span class="answer">Não</span> — declaração desmentida, mas sem acesso ao veneno</td></tr>
+    <tr><td><strong>Salles</strong></td><td>Biblioteca (22h30) → corredor (22h52)</td><td><span class="answer">Não</span> — 22 minutos sem testemunha, contradição direta</td></tr>
+  </table>
+
+  <h4>As quatro perguntas</h4>
+  <ol class="small">
+    <li><strong>O relógio caiu às 22h43.</strong> Isso prova a queda; não prova a morte. A ferida é post mortem (Prova 15).</li>
+    <li><strong>Quem tem álibi documental:</strong> Rafael, Clara e Sérgio. Vitória tem álibi parcial, e justamente porque mentiu sobre estar sozinha.</li>
+    <li><strong>Quem não tem:</strong> Salles e Isabel. Só Salles, porém, tem acesso à digoxina e é desmentido por testemunha ocular.</li>
+    <li><strong>A janela real do copo:</strong> 22h20–22h31 — do momento em que Salles o serve ao primeiro gole. A janela da <em>encenação</em> é 22h43. A janela sem testemunha é 22h30–22h52.</li>
+    <li><strong>A contradição Salles × Clara:</strong> ele diz que saiu às 22h30 e subiu; ela o vê no corredor da biblioteca às 22h52, pálido, com a bolsa médica.</li>
+  </ol>
+
+  <div class="quote-box" style="margin-top:4mm">
+    O raciocínio que fecha o Puzzle 1: a morte não aconteceu quando o relógio caiu; aconteceu enquanto o veneno agia — e o veneno foi servido por quem tinha acesso à medicação. O relógio só serve para provar que alguém voltou à cena depois.
+  </div>
+
+  <div class="card tint" style="margin-top:4mm">
+    <h4 style="margin-top:0">Por que "estar na casa" não é oportunidade</h4>
+    <p class="small" style="margin:0">Cinco pessoas estavam na casa às 22h40. Oportunidade, aqui, significa estar <em>na biblioteca, com o copo</em>, sem testemunha. Só uma pessoa admite ter estado lá nos vinte minutos anteriores à morte — e é a mesma que carregava o frasco.</p>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 4</span></div>
+</section>
+
+<!-- ============ PUZZLE 2 ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 2 resolvido</span>A cifra de Edmund</h2>
+
+  <h4>Passo 1 — a chave</h4>
+  <p class="small">Palavra-chave: <strong>BLACKWOOD</strong>. Removem-se as letras repetidas (o segundo O) e completam-se as dezoito restantes em ordem alfabética.</p>
+  <div class="keybox">
+    A B C D E F G H I J K L M<br>
+    <span class="answer">B L A C K W O D E F G H I J</span><br><br>
+    N O P Q R S T U V W X Y Z<br>
+    <span class="answer">M N P Q R S T U V X Y Z</span>
+  </div>
+  <p class="small">Chave completa: <strong>B L A C K W O D E F G H I J M N P Q R S T U V X Y Z</strong>. Para decifrar, procuram-se as letras na linha de baixo e lê-se a letra correspondente na linha de cima.</p>
+
+  <h4>Passo 2 — o texto</h4>
+  <div class="keybox" style="font-size:8.6pt">
+    SE ALGO ME ACONTECER OLHEM O COFRE.<br>
+    O MEDICO SABE.<br>
+    HELENA NAO MORREU DO CORACAO.<br>
+    SALLES ESTAVA LA.<br>
+    COFRE 1703.
+  </div>
+
+  <h4>Passo 3 — o que cada linha significa</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:58mm">Linha</th><th>Leitura</th></tr>
+    <tr><td class="time">SE ALGO ME ACONTECER OLHEM O COFRE</td><td>Edmund sabia que corria perigo e preparou um esconderijo com provas.</td></tr>
+    <tr><td class="time">O MEDICO SABE</td><td>Salles não é apenas o médico: é o autor, e sabe que Edmund descobriu.</td></tr>
+    <tr><td class="time">HELENA NAO MORREU DO CORACAO</td><td>A primeira esposa foi morta; o atestado de "insuficiência cardíaca" é falso.</td></tr>
+    <tr><td class="time">SALLES ESTAVA LA</td><td>Ele estava presente na noite da morte de Helena — e assinou o óbito.</td></tr>
+    <tr><td class="time">COFRE 1703</td><td>A combinação. 17/03 é a data do casamento com Helena.</td></tr>
+  </table>
+
+  <h4>Respostas</h4>
+  <ol class="small">
+    <li>Edmund queria que fossem encontradas as provas contra Salles — a carta do farmacêutico, as receitas falsas e o atestado de Helena — no cofre da biblioteca.</li>
+    <li>O número é <strong>1703</strong>: 17 de março, a data do casamento com Helena, gravada na certidão dentro do cofre.</li>
+    <li>Porque sabia que a casa estava cheia e que o assassino poderia ler o caderno. A cifra era uma precaução contra olhos familiares.</li>
+    <li>Ninguém precisava ler: quem matou Edmund sabia o que havia no cofre — e por isso não o abriu. O cofre não foi arrombado porque o assassino não queria o conteúdo; queria que ninguém o lesse.</li>
+  </ol>
+
+  <div class="card tint" style="margin-top:4mm">
+    <p class="small" style="margin:0"><strong>Detalhe que condena:</strong> a combinação do cofre é a data do casamento com Helena. Salles conhecia essa data melhor que ninguém: foi ele quem assinou o atestado de óbito dela.</p>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 5</span></div>
+</section>
+
+<!-- ============ PUZZLE 3 ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 3 resolvido</span>A conta que vira o caso</h2>
+
+  <div class="g2" style="margin-top:3mm">
+    <div class="card">
+      <h4 style="margin-top:0">Cápsulas</h4>
+      <table style="font-size:8.8pt">
+        <tr><td>Receita: 30 cápsulas, 1/dia</td><td class="time">10/11</td></tr>
+        <tr><td>Noites até 20/11 (10 a 20)</td><td class="time">11 doses</td></tr>
+        <tr><td>Deveriam restar</td><td class="time answer">19</td></tr>
+        <tr><td>Restavam no frasco</td><td class="time">11</td></tr>
+        <tr><td><strong>Faltando além do prescrito</strong></td><td class="time answer">8</td></tr>
+        <tr><td><strong>Dose extra (8 × 0,25 mg)</strong></td><td class="time answer">2,0 mg</td></tr>
       </table>
-
-      <div class="green" style="margin-top:4mm"><b>Conclusão do puzzle:</b> a única pessoa com <b>conhecimento médico</b> + <b>acesso ao frasco</b> + <b>prescrição legítima</b> é o Dr. Salles. Rafael e Kloss não sabem o que é digoxina; Clara manuseia a casa, não a medicação — e o frasco ficava na gaveta do escritório, área de Edmund e de seu médico.</div>
+      <p class="small" style="margin:2mm 0 0">A dose letal de digoxina é da ordem de 2 a 3 mg em um paciente cardíaco idoso. Oito cápsulas explicam o sangue em 6,8 ng/mL.</p>
     </div>
-
-    <div class="puzzle" style="margin-top:7mm">
-      <span class="badge">Puzzle 4 · Quem mentiu</span>
-      <h3>Matriz de contradições — respostas</h3>
-      <div class="diff">Declarações × provas materiais</div>
-
-      <table style="margin-top:4mm">
-        <tr><th style="width:26mm">Suspeito</th><th>Mentiu?</th><th>Análise</th></tr>
-        <tr><td><b>Vitória</b></td><td class="check">NÃO</td><td>Ligação de 43 min confirmada por registro duro (Evidência 5). Impossível estar na biblioteca. <b>Álibi sólido.</b></td></tr>
-        <tr><td><b>Rafael</b></td><td class="check">NÃO</td><td>Confirmado por Vitória (que estava na linha) e pela sala de estar. <b>Álibi cruzado por duas fontes.</b></td></tr>
-        <tr><td><b>Dr. Salles</b></td><td class="cross">SIM</td><td>Alegou telemarketing 22h10–22h45. <b>Evidência 5 mostra nenhuma chamada em curso</b>; só uma tentativa cancelada (22h31). Álibi fabricado com registro duro desmentindo. <b>Único caso.</b></td></tr>
-        <tr><td><b>Clara</b></td><td class="check">NÃO</td><td>Confirmada por Nilton até 22h40; encontrou o corpo 7 min depois. Motivo forte (demissão), mas álibi consistente. <b>Suspeita de ocasião, não autora.</b></td></tr>
-        <tr><td><b>Kloss</b></td><td class="check">NÃO*</td><td>Visto saindo aos 22h30 por Clara. Motivo fortíssimo (R$ 12 mi), mas teve oportunidade antes (21h10–22h30 no jardim). <b>*Sua janela livre é anterior ao horário da morte</b> — e ele não tem o <b>meio</b> (não teria acesso à digoxina nem conhecimento para a dose).</td></tr>
-        <tr><td><b>Isabel</b></td><td class="check">NÃO</td><td>Relato dos passos é único e não conclusivo. Motivo real (gravidez/exclusão), mas sem meio nem oportunidade confirmáveis.</td></tr>
-      </table>
-
-      <div class="red" style="margin-top:4mm"><b>Chave da dedução:</b> apenas <b>UM</b> suspeito tem <b>motive + meio + oportunidade</b> simultâneos. Kloss tem motivo e oportunidade, mas <b>não tem meio</b>. Clara tem meio (casa) mas <b>não tem acesso à medicação</b> nem o conhecimento. Vitória, Rafael e Isabel têm motivo, mas <b>álibis duros</b> e nenhum acesso à digoxina. <b>Só Salles tem os três.</b></div>
+    <div class="card">
+      <h4 style="margin-top:0">Ferida</h4>
+      <ul class="tight small" style="margin:0">
+        <li>Sem fratura.</li>
+        <li>Sem hemorragia significativa.</li>
+        <li>Sem reação vital no tecido.</li>
+        <li>Sem sangue nas vias aéreas.</li>
+      </ul>
+      <p class="small" style="margin:2mm 0 0">Um ferimento em vida sangra, coagula, inflama. Este não fez nada disso porque foi produzido depois da morte.</p>
     </div>
-
-    <div class="footer"><span>Solução 04 · Puzzles 3 e 4</span><span>Página 5</span></div>
   </div>
-</div>
 
-<!-- ============ PAGE 6: WHY EACH SUSPECT IS INNOCENT ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">Por que <b>cada suspeito</b> é (ou não) o autor</div><div class="ref">Sol. 05 · Eliminação sistemática</div></div>
+  <h4>O laudo que vocês deveriam escrever</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:56mm">Campo</th><th>Resposta correta</th></tr>
+    <tr><td>Causa da morte</td><td>Intoxicação aguda por digoxina</td></tr>
+    <tr><td>Meio</td><td>Dose maciça (8 cápsulas, 2,0 mg) dissolvida no uísque</td></tr>
+    <tr><td>Por que o candelabro não matou</td><td>Ferida post mortem: sem sangue, sem fratura, sem reação vital</td></tr>
+    <tr><td>Por que a cena foi montada</td><td>Para dar uma causa visível e violenta à morte e afastar a hipótese de envenenamento</td></tr>
+    <tr><td>Quem tinha acesso</td><td>Dr. Salles — receita, fornece e administra a medicação noturna</td></tr>
+  </table>
 
-    <table>
-      <tr><th style="width:36mm">Suspeito</th><th style="width:20mm">Motivo</th><th style="width:20mm">Meio</th><th style="width:24mm">Oportunidade</th><th>Veredito</th></tr>
-      <tr>
-        <td><b>Vitória Blackwood</b><br>esposa, 42</td>
-        <td class="check">SIM ✓</td><td class="cross">NÃO ✗</td><td class="cross">NÃO ✗</td>
-        <td><b>INOCENTE.</b> Motivo forte (caso descoberto, herança em risco), mas <b>ligação de 43 min</b> confirmada por registro duro (Evidência 5). Não tem acesso à digoxina nem conhecimento farmacológico. Encene-se ou não, ela estava na linha.</td>
-      </tr>
-      <tr>
-        <td><b>Rafael Blackwood</b><br>filho, 38</td>
-        <td class="check">SIM ✓</td><td class="cross">NÃO ✗</td><td class="cross">NÃO ✗</td>
-        <td><b>INOCENTE.</b> Dívidas de R$ 4,2 mi e desherança = motivo óbvio, mas <b>álibi cruzado</b> (com Vitória na sala). Não saberia calcular uma dose letal de glicosídeo cardíaco. É a <b>isca clássica</b>: o suspeito que "grita" motiva.</td>
-      </tr>
-      <tr>
-        <td><b>Dr. Henrique Salles</b><br>médico, 58</td>
-        <td class="check">SIM ✓</td><td class="check">SIM ✓</td><td class="check">SIM ✓</td>
-        <td><b>CULPADO.</b> Único com os três. Álibi <b>falso</b> (Evidência 5+7), acesso exclusivo ao frasco, conhecimento para dose e método, e motivo urgente (denúncia ao conselho na segunda). Transitou pelo hall às 22h43 (relógio parado) e encenou a cena.</td>
-      </tr>
-      <tr>
-        <td><b>Clara Vidal</b><br>governanta, 55</td>
-        <td class="check">SIM ✓</td><td class="cross">NÃO ✗</td><td class="cross">NÃO ✗</td>
-        <td><b>INOCENTE.</b> Motivo real (demissão sem verba), tem acesso à casa — mas <b>não à medicação</b> (fica no escritório de Edmund). Álibi com Nilton até 22h40; encontrou o corpo 7 min depois. Agiu como <b>descobridora</b>, não autora.</td>
-      </tr>
-      <tr>
-        <td><b>Sérgio Kloss</b><br>sócio, 61</td>
-        <td class="check">SIM ✓</td><td class="cross">NÃO ✗</td><td class="parcial">PARCIAL</td>
-        <td><b>INOCENTE (a segunda melhor suspeita).</b> Motivo fortíssimo (R$ 12 mi) e janela livre 21h10–22h30 no jardim — mas <b>visto saindo aos 22h30</b>, antes da morte (≈22h44). E <b>não tem meio</b>: não prescreve, não manuseia a digoxina de Edmund. Se ele fosse, não precisaria de encenação.</td>
-      </tr>
-      <tr>
-        <td><b>Isabel Ferraz</b><br>secretária, 30</td>
-        <td class="check">SIM ✓</td><td class="cross">NÃO ✗</td><td class="cross">NÃO ✗</td>
-        <td><b>INOCENTE.</b> Motivo emocional forte (gravidez, exclusão do testamento), digita o caderno (parece ter acesso) — mas o bilhete (Evidência 12) mostra chantagem <b>reversa</b>: ela precisa de Edmund vivo. Álibi no quarto; sem meio.</td>
-      </tr>
-    </table>
+  <h4>As três perguntas finais</h4>
+  <ol class="small">
+    <li>O golpe foi dado <strong>depois da morte</strong> — é o que diz a ausência de reação vital.</li>
+    <li>Para trocar uma morte invisível (veneno) por uma morte visível (assalto violento), e assim evitar que se pedisse toxicologia.</li>
+    <li>O médico da família, que entregava a dose todas as noites e escolhia o horário. Ninguém estranharia vê-lo com o frasco na mão.</li>
+  </ol>
 
-    <div class="grid2" style="margin-top:6mm">
-      <div class="note"><b>Armadilha narrativa 1 — Kloss:</b> tem o maior valor em dinheiro e a maior janela de álibi fraco. Muitos investigadores acusam ele por causa do R$ 12 mi. Mas falta o <b>meio</b>: Kloss não teria como saber que 14 cápsulas de digoxina matariam, nem acesso ao frasco do paciente — que ficava na escrivaninha de Edmund, não na área de visitas.</div>
-      <div class="note"><b>Armadilha narrativa 2 — Rafael:</b> o filho endividado é o suspeito "obvio". Porém o álibi dele está confirmado por <b>duas</b> fontes (Vitória + sala de estar), e ele não tem conhecimento médico. O agiota (Evidência 8) é pressão psicológica, não prova.</div>
-    </div>
-
-    <div class="footer"><span>Solução 05 · Eliminação</span><span>Página 6</span></div>
+  <div class="card dark" style="margin-top:4mm">
+    <p class="small" style="margin:0"><strong>O detalhe mais cruel:</strong> a dose letal saiu do próprio frasco de Edmund. Salles não trouxe veneno de fora. Usou o remédio que devia salvá-lo — e que ele mesmo receitava.</p>
   </div>
-</div>
 
-<!-- ============ PAGE 7: DEBRIEF + SCORING ============ -->
-<div class="page">
-  <div class="inner">
-    <div class="page-head"><div class="sec">Debriefing &amp; <b>Pontuação</b></div><div class="ref">Sol. 06 · Roteiro pós-jogo</div></div>
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 6</span></div>
+</section>
 
-    <p class="lead">Depois de revelar a solução, percorram estes pontos. É o que separa um bom jogo de um caso memorável.</p>
+<!-- ============ PUZZLE 4 ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 4 resolvido</span>As mentiras e o que elas protegiam</h2>
 
-    <h2>Perguntas de debriefing</h2>
-    <ol class="steps">
-      <li><b>Vocês acusaram Salles?</b> Se não, quem foi a suspeita "confortável"? A isca funcionou?</li>
-      <li><b>Qual peça virou o jogo?</b> Foi o toxicológico, o registro telefônico ou a ferida póstuma?</li>
-      <li><b>O relógio parado às 22h43</b> foi notado? Ele é o marcador físico do momento da ação.</li>
-      <li><b>A encenação</b> (candelabro no cadáver) enganou vocês na primeira leitura?</li>
-      <li><b>A cifra de César</b> foi resolvida sem dicas? Com quantas dicas?</li>
-      <li><b>Tempo real gasto</b> versus a previsão de 2–3 horas.</li>
-    </ol>
+  <table style="margin-top:3mm;font-size:8.4pt">
+    <tr><th style="width:24mm">Pessoa</th><th>Mentira</th><th style="width:40mm">Prova contrária</th><th style="width:40mm">O que protegia</th><th style="width:20mm">Liga ao crime?</th></tr>
+    <tr>
+      <td><strong>Vitória</strong></td>
+      <td>"Estava sozinha no quarto."</td>
+      <td>Câmera 22h40 + declaração de Marcos</td>
+      <td>O caso com o motorista</td>
+      <td><span class="answer">Não</span></td>
+    </tr>
+    <tr>
+      <td><strong>Sérgio</strong></td>
+      <td>"Falava com minha esposa."</td>
+      <td>Registro: corretora em Mayfair</td>
+      <td>O desfalque de quatro milhões</td>
+      <td><span class="answer">Não</span></td>
+    </tr>
+    <tr>
+      <td><strong>Isabel</strong></td>
+      <td>"Não saí do escritório."</td>
+      <td>Clara a vê na escada de serviço às 22h38</td>
+      <td>O rascunho do testamento que ela pegou</td>
+      <td><span class="answer">Não</span></td>
+    </tr>
+    <tr>
+      <td><strong>Salles</strong></td>
+      <td>"Saí da biblioteca às 22h30 e subi."</td>
+      <td>Clara o vê no corredor às 22h52, com a bolsa</td>
+      <td>A volta à cena e a encenação</td>
+      <td><span class="answer">Sim</span></td>
+    </tr>
+  </table>
 
-    <h2>Tabela de pontuação</h2>
-    <table>
-      <tr><th>Acerto</th><th style="width:30mm">Pontos</th><th>Observação</th></tr>
-      <tr><td>Acusou o culpado correto (Dr. Salles)</td><td><b>+50</b></td><td>Essencial — sem isso o caso não fecha</td></tr>
-      <tr><td>Identificou a causa real (veneno, não golpe)</td><td><b>+20</b></td><td>Necropsia + toxicológico</td></tr>
-      <tr><td>Identificou a encenação (ferida póstuma)</td><td><b>+15</b></td><td>Detalhe forense easy de perder</td></tr>
-      <tr><td>Acertou o motivo (denúncia ao conselho)</td><td><b>+10</b></td><td>Evidência 9 + envelope do cofre</td></tr>
-      <tr><td>Decifrou o caderno sem a Dica 3</td><td><b>+10</b></td><td>Cifra de César</td></tr>
-      <tr><td>Acusou Kloss ou Rafael (isca)</td><td><b>−15</b></td><td>Motivo sem meio</td></tr>
-      <tr><td>Usou a Dica 3 de algum puzzle</td><td><b>−5</b> cada</td><td>Penalidade leve — dicas existem para isso</td></tr>
-      <tr><td>Leu a solução antes de acusar</td><td><b>Caso anulado</b></td><td>Quebra a experiência</td></tr>
-    </table>
+  <h4>Por que três mentiras não são o crime</h4>
+  <p class="small">Vitória, Sérgio e Isabel mentem sobre coisas que aconteceram <em>longe</em> da biblioteca: um quarto, um telefone, uma escada. Nenhum dos três tem acesso à digoxina, nenhum deles é visto na biblioteca na janela crítica, e nenhum deles tem uma explicação para a conta das cápsulas. A mentira deles é sobre vergonha, dinheiro e herança — não sobre um copo.</p>
+  <p class="small">Salles é o único cuja mentira é <strong>sobre o corpo</strong>: ele nega ter voltado à biblioteca, e uma testemunha ocular o coloca a dez passos dela. É o único que estava com o frasco. É o único que tinha motivo para que a morte parecesse acidental ou violenta — e não tóxica.</p>
 
-    <div class="grid3" style="margin-top:6mm">
-      <div class="ev"><span class="n">85–105</span><p><b>Detetive de elite.</b> Você(s) leu(ram) cada vírgula.</p></div>
-      <div class="ev"><span class="n">60–84</span><p><b>Investigador competente.</b> O caso fechou, com uma escorregada.</p></div>
-      <div class="ev"><span class="n">abaixo de 60</span><p><b>Caso não resolvido.</b> Releia a Seção B e a Evidência 5.</p></div>
-    </div>
+  <h4>O teste de consistência</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:44mm">Critério</th><th style="width:18mm">Salles</th><th style="width:18mm">Vitória</th><th style="width:18mm">Sérgio</th><th style="width:18mm">Isabel</th><th style="width:18mm">Rafael</th><th>Clara</th></tr>
+    <tr><td>Motivo documentado</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Parcial</td><td>Sim</td><td>Sim</td></tr>
+    <tr><td>Acesso ao meio</td><td class="answer">Sim</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td></tr>
+    <tr><td>Presente na janela</td><td class="answer">Sim</td><td>Não</td><td>Não</td><td>Parcial</td><td>Não</td><td>Não</td></tr>
+    <tr><td>Mentiu sobre a cena</td><td class="answer">Sim</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td><td>Não</td></tr>
+  </table>
 
-    <div class="green" style="margin-top:6mm"><b>Nota do design:</b> este caso foi calibrado para <b>2 jogadores, 2–3 horas</b>, dificuldade médio/difíficil. As iscas (Rafael endividado, Kloss desviando R$ 12 mi, Clara demitida, Vitória traindo) foram construídas para que <b>todo</b> suspeito tenha motivo — a chave é exigir <b>meio + oportunidade</b> duros. Se quiserem um desafio extra, acusem <b>sem</b> consultar a Evidência 5.</div>
-
-    <div class="footer"><span>Solução 06 · Debriefing</span><span>Página 7</span></div>
+  <div class="quote-box" style="margin-top:4mm">
+    Um assassino não é quem tem o melhor motivo. É quem tem motivo, meio e oportunidade ao mesmo tempo — e uma mentira que só faz sentido se ele estiver escondendo o corpo.
   </div>
-</div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 7</span></div>
+</section>
+
+<!-- ============ INOCENTES ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Puzzle 5 resolvido</span>Por que cada um dos outros é inocente</h2>
+
+  <div class="g2" style="margin-top:3mm">
+    <div class="card">
+      <h4 style="margin-top:0">Vitória Blackwood</h4>
+      <p class="small" style="margin:0">Mentiu para esconder Marcos. Das 22h40 em diante, o motorista confirma que estava com ela — e a câmera registra a entrada dele. Não tinha acesso à digoxina nem motivo para encenar um assalto: o testamento já lhe dava tudo, desde que ficasse viúva. Uma amante não precisa matar para herdar; precisa apenas esperar.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Rafael Blackwood</h4>
+      <p class="small" style="margin:0">Tem o motivo mais barulhento e o álibi mais sólido. O recibo de 21h58 e o barman o colocam no pub até 23h05; a câmera registra o carro entrando às 23h07. Não estava na casa na janela crítica — e não teria como administrar uma dose de digoxina sem o frasco.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Clara Vidal</h4>
+      <p class="small" style="margin:0">Passou toda a janela na despensa com Tomás, que a confirma. Foi ela quem trancou a porta de serviço — o que, à primeira vista, a incrimina; na verdade, explica por que nenhum intruso entrou. Se tivesse matado, teria de estar em dois lugares ao mesmo tempo.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Sérgio Kloss</h4>
+      <p class="small" style="margin:0">O registro telefônico o prende ao hall das 22h28 às 22h46 — à vista de quem passasse. Mentiu sobre a pessoa com quem falava, não sobre o horário. Seu desespero é financeiro, não químico: não tinha acesso ao frasco nem à rotina da medicação.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Isabel Ferraz</h4>
+      <p class="small" style="margin:0">Foi vista às 22h38 na escada de serviço — o que a torna mentirosa, não assassina. Estava no quarto de Edmund procurando o testamento, não na biblioteca. Não tem acesso à digoxina e não tinha como encenar a cena sem ser vista.</p>
+    </div>
+    <div class="card dark">
+      <h4 style="margin-top:0">Dr. Henrique Salles</h4>
+      <p class="small" style="margin:0">Motivo documentado (receitas falsas + Helena), meio (a digoxina que ele receitava e administrava), oportunidade (22h30–22h52 sem testemunha), e uma mentira que só protege a cena do crime. É o único que se encaixa nos quatro critérios.</p>
+    </div>
+  </div>
+
+  <h4>Como preencher a ficha de acusação</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:34mm">Campo</th><th>Resposta</th></tr>
+    <tr><td>Culpado</td><td class="answer">Dr. Henrique Salles</td></tr>
+    <tr><td>Motivo</td><td>Impedir que Edmund denunciasse as receitas falsas e a morte de Helena</td></tr>
+    <tr><td>Meio</td><td>Oito cápsulas de digoxina no uísque (2,0 mg)</td></tr>
+    <tr><td>Oportunidade</td><td>Serviu o uísque às 22h20 e voltou à cena às 22h43; sem testemunha até 22h52</td></tr>
+    <tr><td>Prova 1</td><td>Toxicológico: digoxina 6,8 ng/mL; ferida post mortem</td></tr>
+    <tr><td>Prova 2</td><td>Frasco com 8 cápsulas faltando além do prescrito</td></tr>
+    <tr><td>Prova 3</td><td>Receitas falsas em nome de "J. Prado", assinadas por Salles</td></tr>
+    <tr><td>Prova 4</td><td>Carta do farmacêutico + atestado de óbito de Helena</td></tr>
+  </table>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 8</span></div>
+</section>
+
+<!-- ============ POR QUE A CENA ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">A cena por dentro</span>Por que golpear um morto?</h2>
+
+  <div class="g2" style="margin-top:3mm">
+    <figure class="photo-frame" style="margin:0">
+      <img class="photo banner" src="assets/candlestick.jpg" alt="Candelabro">
+      <figcaption>O candelabro não matou: ele encenou</figcaption>
+    </figure>
+    <div class="card">
+      <h4 style="margin-top:0">A lógica do assassino</h4>
+      <p class="small" style="margin:0">Um envenenamento sem sinais externos obriga a polícia a pedir toxicologia — e a toxicologia aponta para o único homem com acesso à digoxina. Um assalto violento, ao contrário, explica a morte sem exame de sangue e desvia a investigação para um intruso que nunca existiu.</p>
+    </div>
+  </div>
+
+  <h4>Os quatro erros de Salles</h4>
+  <ol class="small">
+    <li><strong>Golpeou um corpo sem sangue.</strong> Um legista atento percebe a ausência de reação vital — e o laudo toxicológico confirma.</li>
+    <li><strong>Derrubou o relógio.</strong> Fixou a hora da encenação, não a da morte. E o relógio estava atrás da poltrona, fora do caminho de quem foge.</li>
+    <li><strong>Deixou o copo.</strong> O uísque com resíduo de digoxina e excipiente de cápsula é a assinatura do remédio.</li>
+    <li><strong>Voltou.</strong> A testemunha ocular de Clara às 22h52 destrói o álibi que ele mesmo construiu com a hora de saída.</li>
+  </ol>
+
+  <h4>A cronologia da encenação</h4>
+  <table style="margin-top:2mm">
+    <tr><th style="width:24mm">Hora</th><th>Ação</th></tr>
+    <tr><td class="time">22h20</td><td>Serve o uísque com as oito cápsulas dissolvidas.</td></tr>
+    <tr><td class="time">22h30</td><td>Sai, cumprimenta, sobe. A morte começa a acontecer sem ele.</td></tr>
+    <tr><td class="time">22h43</td><td>Volta, encontra o corpo, golpeia e derruba o relógio. Fixa a hora.</td></tr>
+    <tr><td class="time">22h52</td><td>No hall, pega o telefone, ouve o sinal, desliga. Clara o vê.</td></tr>
+    <tr><td class="time">22h55</td><td>Clara encontra o corpo. Ele já está no corredor, subindo.</td></tr>
+  </table>
+
+  <div class="quote-box" style="margin-top:4mm">
+    A pergunta que resolve o caso não é "quem tinha motivo?" — cinco pessoas tinham. É "quem precisou que a morte parecesse outra coisa?". Só o médico precisava esconder o veneno.
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 9</span></div>
+</section>
+
+<!-- ============ ERROS COMUNS ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Análise</span>Armadilhas e erros comuns</h2>
+
+  <table style="margin-top:3mm">
+    <tr><th style="width:56mm">Armadilha</th><th>Por que é uma armadilha</th></tr>
+    <tr><td>Aceitar 22h43 como hora da morte</td><td>O relógio marca a queda. A ferida é post mortem. A morte começou antes, com o veneno.</td></tr>
+    <tr><td>Acusar Rafael pelas dívidas</td><td>Motivo mais óbvio, álibi mais sólido: recibo, barman e câmera.</td></tr>
+    <tr><td>Acusar Vitória pelo adultério</td><td>A mentira é real, mas protege o motorista — e ela estava com ele na janela.</td></tr>
+    <tr><td>Acusar Clara pela prataria</td><td>Ela tem motivo e oportunidade de furtar, não de envenenar; está com Tomás na hora exata.</td></tr>
+    <tr><td>Acusar Isabel pela gravidez</td><td>Ela esconde o testamento, não o veneno. Não tem acesso à digoxina.</td></tr>
+    <tr><td>Acusar Sérgio pela fraude</td><td>O telefone o prende ao hall; o crime é químico, não financeiro.</td></tr>
+    <tr><td>Ignorar a conta das cápsulas</td><td>É a única prova que liga o frasco ao copo e o copo ao médico.</td></tr>
+    <tr><td>Confundir "mentiu" com "matou"</td><td>Três pessoas mentem. Só uma mente sobre o corpo.</td></tr>
+  </table>
+
+  <h4>Pontuação sugerida</h4>
+  <div class="g3" style="margin-top:2mm">
+    <div class="card tint"><h4 style="margin-top:0">3 pontos</h4><p class="small" style="margin:0">Nome correto + motivo + meio + oportunidade, com provas numeradas.</p></div>
+    <div class="card tint"><h4 style="margin-top:0">2 pontos</h4><p class="small" style="margin:0">Nome correto, mas explicação incompleta ou sem a conta das cápsulas.</p></div>
+    <div class="card tint"><h4 style="margin-top:0">1 ponto</h4><p class="small" style="margin:0">Nome correto por intuição, sem conseguir sustentar com provas.</p></div>
+  </div>
+
+  <h4>Se vocês acusaram a pessoa errada</h4>
+  <p class="small">Voltem a três pontos, nesta ordem: (1) a conta das cápsulas — quantas faltam além do prescrito? (2) quem entregou o uísque? (3) quem Clara viu no corredor às 22h52? Se as três respostas apontarem para a mesma pessoa, a acusação se sustenta. Se apontarem para pessoas diferentes, releiam a Prova 15: a ferida não matou.</p>
+
+  <div class="card" style="margin-top:4mm">
+    <h4 style="margin-top:0">A pergunta final</h4>
+    <p class="small" style="margin:0">Se Edmund tivesse morrido naquela noite sem o golpe, sem o relógio caído e sem a gaveta aberta — apenas dormindo na poltrona, com o copo ao lado — alguém teria pedido toxicologia? Provavelmente não. O assassino quase teve sucesso. O que o entregou foi a necessidade de controlar a narrativa.</p>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 10</span></div>
+</section>
+
+<!-- ============ EPÍLOGO ============ -->
+<section class="page">
+  <h2 class="sec"><span class="num">Encerramento</span>O que acontece depois</h2>
+
+  <p class="drop">Na segunda-feira, Aldous Pike entrega o dossiê à Insp. Margot Vance com uma nota de três linhas: a ferida era post mortem, o frasco tinha oito cápsulas a menos e o Dr. Salles estava no corredor às 22h52. A polícia refaz o inquérito. O laudo toxicológico, que nunca havia sido solicitado, chega em quarenta e oito horas. A audiência é adiada.</p>
+  <p>Salles é detido na terça-feira, na clínica de Londres, com doze receitas em branco na maleta. Não resiste. Diante do delegado, repete a mesma frase que disse a Clara no corredor: "Eu só fui ver como ele estava." Ninguém acredita — nem ele.</p>
+
+  <div class="g2" style="margin-top:5mm">
+    <div class="card">
+      <h4 style="margin-top:0">O destino dos seis</h4>
+      <ul class="tight small" style="margin:0">
+        <li><strong>Vitória</strong> — o adultério vem à tona. Perde o usufruto previsto na cláusula 2, que exigia viuvez "sem mácula".</li>
+        <li><strong>Rafael</strong> — a procuração falsa é descoberta; responde por falsificação, não por homicídio.</li>
+        <li><strong>Clara</strong> — confessa a prataria. Devolve as peças e recebe uma carta de recomendação, por ter encontrado o corpo e dito a verdade.</li>
+        <li><strong>Sérgio</strong> — o desfalque é auditado; devolve parte e perde a sociedade.</li>
+        <li><strong>Isabel</strong> — devolve o rascunho. O novo testamento, se existisse, nunca é encontrado.</li>
+        <li><strong>Salles</strong> — responde por dois homicídios qualificados e falsificação de documentos.</li>
+      </ul>
+    </div>
+    <div class="card tint">
+      <h4 style="margin-top:0">A ironia</h4>
+      <p class="small" style="margin:0">A casa que Edmund construiu para se proteger — o cofre novo, a cifra, a carta guardada — só funcionou depois que ele morreu. O que o salvou não foi o esconderijo. Foi o hábito de anotar tudo, inclusive a data do casamento.</p>
+      <div class="rule"></div>
+      <p class="small" style="margin:0"><em>"Um homem que desconfia de todos deixa pistas para todos. Basta alguém com paciência para ler."</em></p>
+    </div>
+  </div>
+
+  <h4>Checklist final da solução</h4>
+  <ul class="checklist small">
+    <li>Culpado: Dr. Henrique Salles.</li>
+    <li>Meio: oito cápsulas de digoxina (2,0 mg) no uísque.</li>
+    <li>Oportunidade: 22h20–22h52, com vinte e dois minutos sem testemunha.</li>
+    <li>Prova decisiva: toxicologia + conta das cápsulas + receitas falsas.</li>
+    <li>Encenação: ferida post mortem, relógio derrubado às 22h43, gaveta aberta.</li>
+    <li>Contradição final: Clara vê Salles às 22h52; ele diz que saiu às 22h30.</li>
+  </ul>
+
+  <div class="rule"></div>
+  <div class="g2">
+    <div class="card">
+      <h4 style="margin-top:0">Créditos</h4>
+      <p class="small" style="margin:0">Gabarito do jogo <em>O Caso Mansão Blackwood</em>. Projetado para impressão em A4. Fotografias de acervo livre (Openverse/Flickr).</p>
+    </div>
+    <div class="card dark">
+      <h4 style="margin-top:0">Ficção</h4>
+      <p class="small" style="margin:0">Pessoas, instituições e endereços citados são inventados. Nenhuma informação médica aqui deve ser usada fora do jogo.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>Caso Mansão Blackwood &middot; Gabarito</span><span>p. 11</span></div>
+</section>
 
 </body>
 </html>
